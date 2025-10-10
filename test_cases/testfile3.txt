@@ -1,0 +1,32 @@
+
+
+int nums[100010];
+int perm[100010];
+
+int main() {
+	printf("23373523\n");
+    int n;
+    n = getint();
+    int i;
+    for (i = 1; i <= n; i = i + 1) {
+        nums[i] = getint();
+    }
+    for (i = 1; i <= n; i = i + 1) {
+        int gap = 0, index = 1;
+        for (;gap <= nums[i];) {
+            if (perm[index] == 0) {
+                gap  = gap + 1;
+                if (gap > nums[i]) break;
+        }
+            index = index + 1;
+        }
+        perm[index] = i;
+    }
+    for (i = 1; i <= n; i = i + 1) {
+        printf("%d ", perm[i]);
+    }
+    for (; i <= 9; i = i +1){
+    	printf("* ");
+	}
+    return 0;
+}

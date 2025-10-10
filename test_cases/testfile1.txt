@@ -1,0 +1,29 @@
+int n;
+int global_var = 0;
+int func() {
+    global_var = global_var + 1;
+    return 1;
+}
+int main() {
+	printf("23373523\n");
+    if (0 && func()){
+        n = 0;
+    }
+    printf("%d",global_var); // 输出 0
+    if (1 || func()) {
+        n = 0;
+    }
+    printf("%d",global_var); // 输出 0
+    if (0 || func()) {
+        n = 0;
+    }
+    printf("%d",global_var); // 输出 1
+    
+    printf("*");
+    printf("*");
+    printf("*");
+    printf("*");
+    printf("*");
+    printf("*");
+    return 0;
+}

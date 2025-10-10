@@ -1,0 +1,47 @@
+
+int main() {
+    printf("23373523\n");
+    int n;
+    n = getint();
+    int h, p, q = 0;
+    h = getint();
+    p = getint();
+    q = getint();
+    int flag = 0;
+    int sum = 0;
+    int a;
+    int i;
+    for (a = 0, i = 0; i < n; i = i + 1) {
+    	a = getint();
+    	sum = sum + a;
+    	if (h + sum >= q)
+            {
+            	if (flag == 0) {
+            		flag = 1;
+                	printf("up\n");
+				}
+            }
+        if (h + sum <= p)
+        {
+            if (flag == 0) {
+            	flag = 1;
+            	printf("down\n");
+			}
+        }
+        
+	}
+	if (flag == 0)
+        {
+            if (sum == 0)
+                printf("No\n");
+            if (sum > 0)
+                printf("up\n");
+            if (sum < 0)
+                printf("down\n");
+        }
+        
+    i = 0;
+    for (; i < 8; i = i + 1) {
+    	printf("* ");
+	}
+}

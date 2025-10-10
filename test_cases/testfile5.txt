@@ -1,0 +1,90 @@
+
+int n;
+int m = 0;
+int p, q, r;
+const int con1 = 1;
+const int con2 = 1 + 1;
+
+void vFunc() {
+	n = n + 1;
+}
+
+int iFuncPlus(int a, int b) {
+	printf("a + b: %d\n", a + b);
+	return a + b;
+}
+
+
+int main() {
+	static int s;
+	static int s1 = 1 + 1 - 1, s2 = 2, s3;
+	int var1 = s;
+	int var2 = con1;
+	printf("23373523\n");
+	{}
+	{  // all exp met
+		int blockInt6 = 6;
+		int blockInt3 = con1 + con2;
+		blockInt6 = 9 + -9 + - +3;
+		blockInt6 = 4 + blockInt3 + getint();    //getint here
+		blockInt6 = (5+ blockInt3) - getint();   //getint here
+		blockInt6 = blockInt6 / 3;
+		blockInt6 = blockInt6 * 3;
+		blockInt6 = blockInt6 % 4;
+		blockInt6 = iFuncPlus(1 + 2, blockInt6);
+	}
+	
+	/* all cond met */
+	int condVar = 0;
+	if (var1 + var2 * 3 <= +900) {
+		condVar = condVar + 1;
+	}
+	else {
+		condVar = condVar;
+	}
+	if (0 + 1) condVar = condVar + 10;
+	if (1 == 1) condVar = condVar + 100;
+	if (0 != 1) condVar = condVar + 1000;
+	if (1 <= 2) condVar = condVar + 10000;
+	if (!0) condVar = condVar + 100000;
+	printf("cond:%d\n", condVar);
+	
+	// all for met
+	int i, j;
+	for(i = 0, j = 0; ; i = i + 1) {
+		if (i > 10) break;
+	}
+	for (; j < 10; j = j + 1) {
+		if (j < 5) continue;
+	}
+	for (i = 0, j = 0; j < 10;) {
+		j = j + 1;
+	}
+	// omit 2
+	j = 0;
+	for (;; j = j + 1) {
+		if (j == 3) break;
+	}
+	i = 0;
+	for (; i < 10;) {
+		i = i + 1;
+	}
+	for (i = 0; ;) {
+		i = i + 1;
+		if (i == 10) {
+			break;
+		}
+	}
+	// omit all
+	i = 0;
+	j = 0;
+	for (;;) {
+		i = i + 1;
+		if (i == 10) break;
+	}
+	
+	i = 0;
+	for (; i < 7; i = i + 1) {
+		printf("! ");
+	}
+}
