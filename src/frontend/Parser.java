@@ -45,7 +45,7 @@ public class Parser {
                 pos++;
                 curToken = tokenList.get(pos);
             } else {
-                System.out.println("WARNING matching end");
+                System.out.println("WARNING: matching end");
             }
             return tmp;
         } else if (tokenType == TokenType.SEMICN || tokenType == TokenType.RPARENT || tokenType == TokenType.RBRACK) {
@@ -61,7 +61,7 @@ public class Parser {
             ErrorHandler.addError(error);
             return new Token(tokenType.getValue(), tokenType, lineNum);
         }
-        System.out.println("can't match " + tokenType);
+        System.out.println("WARNING: can't match " + tokenType);
         return null;
     }
 
