@@ -23,6 +23,14 @@ public class MainFuncDefNode extends Node {
         this.blockNode = blockNode;
     }
 
+    public Token getMainToken() {
+        return mainToken;
+    }
+
+    public BlockNode getBlockNode() {
+        return blockNode;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(intToken) + mainToken + lParent + rParent + blockNode + printNodeType();

@@ -21,6 +21,18 @@ public class CompUnitNode extends Node {
         this.mainFuncDefNode = mainFuncDefNode;
     }
 
+    public ArrayList<DeclNode> getDeclNodes() {
+        return declNodes;
+    }
+
+    public ArrayList<FuncDefNode> getFuncDefNodes() {
+        return funcDefNodes;
+    }
+
+    public MainFuncDefNode getMainFuncDefNode() {
+        return mainFuncDefNode;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

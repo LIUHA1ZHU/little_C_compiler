@@ -1,12 +1,13 @@
 import error.ErrorHandler;
 import frontend.Lexer;
 import frontend.Parser;
+import midEnd.MidEnd;
+import midEnd.symbol.SymbolManager;
 import utils.Config;
 import utils.FileIO;
 
 public class Compiler {
     private String source = "";
-    private Lexer lexer = null;
 
     public void compile() {
         source = FileIO.read();
@@ -21,6 +22,14 @@ public class Compiler {
         if (Config.ParserOutput) {
             parser.outputAST();
         }
+
+        SymbolManager.init();
+        MidEnd midEnd = new MidEnd(parser.getRootNode());
+        midEnd.visit();
+        if (Config.SymbolOutput) {
+            SymbolManager.outputSymbol();
+        }
+
 
         if (Config.ErrorOutput) {
             ErrorHandler.outputError();

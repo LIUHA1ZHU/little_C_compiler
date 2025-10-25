@@ -7,5 +7,9 @@ public abstract class PseudoNode {
         this.pseudoNodeType = type;
     }
 
+    public PseudoNodeType getPseudoNodeType() {
+        return pseudoNodeType;
+    }
+
     public abstract String toString();
 }

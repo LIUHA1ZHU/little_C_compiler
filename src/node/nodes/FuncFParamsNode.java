@@ -19,6 +19,10 @@ public class FuncFParamsNode extends Node {
         this.commas = commas;
     }
 
+    public ArrayList<FuncFParamNode> getFuncFParamNodes() {
+        return funcFParamNodes;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

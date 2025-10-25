@@ -20,6 +20,9 @@ public class FuncRParamsNode extends Node {
         this.commaList = commaList;
     }
 
+    public ArrayList<ExpNode> getExpNodeList() {
+        return expNodeList;
+    }
 
     @Override
     public String toString() {

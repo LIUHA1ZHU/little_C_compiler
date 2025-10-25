@@ -15,6 +15,10 @@ public class FuncTypeNode extends Node {
         this.funcType = funcType;
     }
 
+    public Token getFuncType() {
+        return funcType;
+    }
+
     @Override
     public String toString() {
         return funcType + printNodeType();

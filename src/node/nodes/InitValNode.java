@@ -23,6 +23,10 @@ public class InitValNode extends Node {
         this.rBrace = rBrace;
     }
 
+    public ArrayList<ExpNode> getExpNodes() {
+        return expNodes;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

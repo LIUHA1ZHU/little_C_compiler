@@ -19,7 +19,7 @@ public class StmtNode extends Node {
     private final PseudoNode pseudoNode;
     private final BlockNode blockNode;
     private final Token singleBranchToken;
-    private final Token semiToken;
+    private final Token semiToken;          // this semiToken is just for 'break' & 'continue' stmt
 
     public StmtNode(PseudoNode pseudoNode, BlockNode blockNode, Token singleBranchToken, Token semiToken) {
         super(NodeType.Stmt);
@@ -27,6 +27,18 @@ public class StmtNode extends Node {
         this.blockNode = blockNode;
         this.singleBranchToken = singleBranchToken;
         this.semiToken = semiToken;
+    }
+
+    public PseudoNode getPseudoNode() {
+        return pseudoNode;
+    }
+
+    public BlockNode getBlockNode() {
+        return blockNode;
+    }
+
+    public Token getSingleBranchToken() {
+        return singleBranchToken;
     }
 
     @Override

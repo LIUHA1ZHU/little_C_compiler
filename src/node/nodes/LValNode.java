@@ -1,5 +1,6 @@
 package node.nodes;
 
+import midEnd.symbol.Symbol;
 import node.Node;
 import node.NodeType;
 import token.Token;
@@ -19,6 +20,23 @@ public class LValNode extends Node {
         this.lBracket = lBracket;
         this.expNode = expNode;
         this.rBracket = rBracket;
+    }
+
+    public Token getIdentToken() {
+        return identToken;
+    }
+
+    public ExpNode getExpNode() {
+        return expNode;
+    }
+
+    // in funcRParams type check, only check single-symbol exp
+    public String propagateSymbolName() {
+        if (lBracket == null) {
+            return identToken.getContent();
+        } else {
+            return identToken.getContent() + "[]";
+        }
     }
 
     @Override

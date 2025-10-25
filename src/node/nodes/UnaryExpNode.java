@@ -1,5 +1,7 @@
 package node.nodes;
 
+import midEnd.visitor.FuncCallVisitor;
+import node.ExpAlikeNode;
 import node.Node;
 import node.NodeType;
 import token.Token;
@@ -8,7 +10,7 @@ import token.TokenType;
 /**
  * UnaryExp → PrimaryExp | Ident '(' [FuncRParams] ')' | UnaryOp UnaryExp
  */
-public class UnaryExpNode extends Node {
+public class UnaryExpNode extends ExpAlikeNode {
     private final PrimaryExpNode primaryExpNode;
     private final Token ident;
     private final Token lParent;
@@ -29,6 +31,39 @@ public class UnaryExpNode extends Node {
         this.unaryExpNode = unaryExpNode;
     }
 
+    @Override
+    public void evaluate() {
+        if (primaryExpNode != null) {
+            primaryExpNode.evaluate();
+            if (primaryExpNode.isConst()) {
+                isConst = true;
+                constValue = primaryExpNode.getConstValue();
+            }
+        } else if (unaryOpNode != null) {
+            unaryExpNode.evaluate();
+            if (unaryExpNode.isConst()) {
+                isConst = true;
+                constValue = switch (unaryOpNode.getOp()) {
+                    case "+" -> unaryExpNode.getConstValue();
+                    case "-" -> - unaryExpNode.getConstValue();
+                    case "!" -> unaryExpNode.getConstValue() == 0 ? 1 : 0;
+                    default -> throw new RuntimeException("invalid unaryOperator");
+                };
+            }
+        } else { // Ident '(' [FuncRParams] ')'
+            FuncCallVisitor.visit(ident, funcRParamsNode);
+        }
+    }
+
+    // in funcRParams type check, only check single-symbol exp
+    public String propagateSymbolName() {
+        if (primaryExpNode != null) {
+            return primaryExpNode.propagateSymbolName();
+        } else if (ident != null) {
+            return ident.getContent();
+        }
+        return "0";
+    }
 
     @Override
     public String toString() {

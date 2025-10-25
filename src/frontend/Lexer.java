@@ -86,14 +86,13 @@ public class Lexer {
                 pos++;
                 tokenLength = 1;
             } else {
-                System.out.println("WARNING: reaching max length " + lineNum);
-                return null;
+                throw new RuntimeException("WARNING: reaching max length " + lineNum);
             }
 
             if (tokenType != null) {
                 curToken = new Token(inputText.substring(pos - tokenLength, pos), tokenType, lineNum);
             } else {
-                System.out.println("WARNING: not supposed to be here! unknown token " + lineNum);
+                throw new RuntimeException("WARNING: not supposed to be here! unknown token " + lineNum);
             }
         }
         return curToken;
@@ -176,8 +175,7 @@ public class Lexer {
             pos--;
             return false;
         }
-        System.out.println("WARNING: not supposed to be here while skipping comment! " + lineNum);
-        return pos < maxLength;
+        throw new RuntimeException("WARNING: not supposed to be here while skipping comment! " + lineNum);
     }
 
     private void skipWhite() {

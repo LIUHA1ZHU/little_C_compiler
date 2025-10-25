@@ -23,6 +23,14 @@ public class LValAssignStmtNode extends PseudoNode {
         this.semiToken = semiToken;
     }
 
+    public LValNode getlValNode() {
+        return lValNode;
+    }
+
+    public ExpNode getExpNode() {
+        return expNode;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(lValNode) + assignToken + expNode + semiToken;

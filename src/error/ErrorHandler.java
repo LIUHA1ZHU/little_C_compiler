@@ -6,11 +6,15 @@ import java.util.ArrayList;
 
 public class ErrorHandler {
     private static final ArrayList<Error> errorList = new ArrayList<>();
-
-    private ErrorHandler() {}
+    private static boolean noError = true;
 
     public static void addError(Error error) {
+        noError = false;
         errorList.add(error);
+    }
+
+    public static boolean hasNoError() {
+        return noError;
     }
 
     public static void outputError() {

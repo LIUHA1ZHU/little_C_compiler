@@ -15,6 +15,10 @@ public class UnaryOpNode extends Node {
         this.opNode = opNode;
     }
 
+    public String getOp() {
+        return opNode.getContent();
+    }
+
     @Override
     public String toString() {
         return opNode + printNodeType();

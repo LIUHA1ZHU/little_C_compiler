@@ -35,6 +35,21 @@ public class ForNode extends PseudoNode {
         this.stmtNode = stmtNode;
     }
 
+    public ForStmtNode getForStmtNode1() {
+        return forStmtNode1;
+    }
+
+    public CondNode getCondNode() {
+        return condNode;
+    }
+
+    public ForStmtNode getForStmtNode2() {
+        return forStmtNode2;
+    }
+
+    public StmtNode getStmtNode() {
+        return stmtNode;
+    }
 
     @Override
     public String toString() {

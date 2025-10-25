@@ -30,6 +30,18 @@ public class IfStmtNode extends PseudoNode {
         this.stmtNodeElse = stmtNodeElse;
     }
 
+    public CondNode getCondNode() {
+        return condNode;
+    }
+
+    public StmtNode getStmtNodeIf() {
+        return stmtNodeIf;
+    }
+
+    public StmtNode getStmtNodeElse() {
+        return stmtNodeElse;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

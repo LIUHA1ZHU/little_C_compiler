@@ -25,6 +25,17 @@ public class VarDeclNode extends Node {
         this.semiToken = semiToken;
     }
 
+    public Token getStaticToken() {
+        return staticToken;
+    }
+
+    public BTypeNode getbTypeNode() {
+        return bTypeNode;
+    }
+
+    public ArrayList<VarDefNode> getVarDefNodes() {
+        return varDefNodes;
+    }
 
     @Override
     public String toString() {

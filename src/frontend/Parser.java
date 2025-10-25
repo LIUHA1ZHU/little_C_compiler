@@ -22,6 +22,11 @@ public class Parser {
     private int pos;
     private Token curToken;
     private CompUnitNode rootNode = null;
+    private boolean inPin = false;
+
+    public CompUnitNode getRootNode() {
+        return rootNode;
+    }
 
     public Parser(ArrayList<Token> tokenList) {
         this.tokenList = tokenList;
@@ -32,8 +37,7 @@ public class Parser {
 
     public void parse() {
         if (tokenList.isEmpty()) {
-            System.out.println("WARNING: parser gets an empty tokenList");
-            return;
+            throw new RuntimeException("WARNING: parser gets an empty tokenList");
         }
         rootNode = parseCompUnit();
     }
@@ -45,7 +49,7 @@ public class Parser {
                 pos++;
                 curToken = tokenList.get(pos);
             } else {
-                System.out.println("WARNING: matching end");
+                throw new RuntimeException("WARNING: matching end");
             }
             return tmp;
         } else if (tokenType == TokenType.SEMICN || tokenType == TokenType.RPARENT || tokenType == TokenType.RBRACK) {
@@ -58,11 +62,12 @@ public class Parser {
                 default -> null;
             };
             Error error = new Error(errorType, lineNum);
-            ErrorHandler.addError(error);
+            if (!inPin) {
+                ErrorHandler.addError(error);
+            }
             return new Token(tokenType.getValue(), tokenType, lineNum);
         }
-        System.out.println("WARNING: can't match " + tokenType);
-        return null;
+        throw new RuntimeException("WARNING: can't match " + tokenType);
     }
 
     private boolean peek(int dis, TokenType tokenType) {
@@ -379,14 +384,17 @@ public class Parser {
         //      LVal '=' Exp ';'
         //    | [Exp] ';' // Exp must exist
         int pinPos = pos; // pin
-        LValNode lValNode = parseLVal();
+        inPin = true;
+        ExpNode expNode = parseExp();
         if (curToken.getTokenType() == TokenType.ASSIGN) {
             pos = pinPos;
+            inPin = false;
             curToken = tokenList.get(pos);
             LValAssignStmtNode lValAssignStmtNode = parseLValAssignStmt();
             return new StmtNode(lValAssignStmtNode, null, null, null);
         } else {
             pos = pinPos;
+            inPin = false;
             curToken = tokenList.get(pos);
             ExpStmtNode expStmtNode = parseExpStmt();
             return new StmtNode(expStmtNode, null, null, null);

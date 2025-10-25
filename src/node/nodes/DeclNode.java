@@ -16,6 +16,14 @@ public class DeclNode extends Node {
         this.varDeclNode = varDeclNode;
     }
 
+    public ConstDeclNode getConstDeclNode() {
+        return constDeclNode;
+    }
+
+    public VarDeclNode getVarDeclNode() {
+        return varDeclNode;
+    }
+
     @Override
     public String toString() {
         if (constDeclNode != null) {

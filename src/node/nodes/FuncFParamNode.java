@@ -21,6 +21,18 @@ public class FuncFParamNode extends Node {
         this.rBracket = rBracket;
     }
 
+    public BTypeNode getbTypeNode() {
+        return bTypeNode;
+    }
+
+    public Token getIdentToken() {
+        return identToken;
+    }
+
+    public Token getlBracket() {
+        return lBracket;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

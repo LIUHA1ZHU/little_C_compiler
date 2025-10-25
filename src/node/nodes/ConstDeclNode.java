@@ -25,6 +25,18 @@ public class ConstDeclNode extends Node {
         this.semiToken = semiToken;
     }
 
+    public Token getConstToken() {
+        return constToken;
+    }
+
+    public BTypeNode getbTypeNode() {
+        return bTypeNode;
+    }
+
+    public ArrayList<ConstDefNode> getConstDefNodes() {
+        return constDefNodes;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

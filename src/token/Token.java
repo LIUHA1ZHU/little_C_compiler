@@ -19,6 +19,10 @@ public class Token {
         return lineNum;
     }
 
+    public String getContent() {
+        return content;
+    }
+
     @Override
     public String toString() {
         return tokenType + " " + content + "\n";

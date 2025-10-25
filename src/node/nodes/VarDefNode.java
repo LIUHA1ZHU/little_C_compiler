@@ -25,6 +25,18 @@ public class VarDefNode extends Node {
         this.initValNode = initValNode;
     }
 
+    public Token getIdentToken() {
+        return identToken;
+    }
+
+    public ConstExpNode getConstExpNode() {
+        return constExpNode;
+    }
+
+    public InitValNode getInitValNode() {
+        return initValNode;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

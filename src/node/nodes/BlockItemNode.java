@@ -16,6 +16,14 @@ public class BlockItemNode extends Node {
         this.stmtNode = stmtNode;
     }
 
+    public DeclNode getDeclNode() {
+        return declNode;
+    }
+
+    public StmtNode getStmtNode() {
+        return stmtNode;
+    }
+
     @Override
     public String toString() {
         if (declNode != null) {

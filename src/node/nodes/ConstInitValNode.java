@@ -23,6 +23,10 @@ public class ConstInitValNode extends Node {
         this.rBrace = rBrace;
     }
 
+    public ArrayList<ConstExpNode> getConstExpNodes() {
+        return constExpNodes;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

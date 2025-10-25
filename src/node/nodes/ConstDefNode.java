@@ -25,6 +25,18 @@ public class ConstDefNode extends Node {
         this.constInitValNode = constInitValNode;
     }
 
+    public Token getIdentToken() {
+        return identToken;
+    }
+
+    public ConstExpNode getConstExpNode() {
+        return constExpNode;
+    }
+
+    public ConstInitValNode getConstInitValNode() {
+        return constInitValNode;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

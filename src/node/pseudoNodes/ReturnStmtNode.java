@@ -20,6 +20,14 @@ public class ReturnStmtNode extends PseudoNode {
         this.semiToken = semiToken;
     }
 
+    public Token getReturnToken() {
+        return returnToken;
+    }
+
+    public ExpNode getExpNode() {
+        return expNode;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

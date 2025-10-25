@@ -25,6 +25,22 @@ public class FuncDefNode extends Node {
         this.blockNode = blockNode;
     }
 
+    public FuncTypeNode getFuncTypeNode() {
+        return funcTypeNode;
+    }
+
+    public Token getIdentToken() {
+        return identToken;
+    }
+
+    public FuncFParamsNode getFuncFParamsNode() {
+        return funcFParamsNode;
+    }
+
+    public BlockNode getBlockNode() {
+        return blockNode;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

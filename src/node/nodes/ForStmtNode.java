@@ -23,6 +23,14 @@ public class ForStmtNode extends Node {
         this.commaTokens = commaTokens;
     }
 
+    public ArrayList<LValNode> getlValNodes() {
+        return lValNodes;
+    }
+
+    public ArrayList<ExpNode> getExpNodes() {
+        return expNodes;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

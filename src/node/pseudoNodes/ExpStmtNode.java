@@ -18,6 +18,10 @@ public class ExpStmtNode extends PseudoNode {
         this.semiToken = semiToken;
     }
 
+    public ExpNode getExpNode() {
+        return expNode;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

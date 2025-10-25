@@ -1,5 +1,6 @@
 package node.nodes;
 
+import node.ExpAlikeNode;
 import node.Node;
 import node.NodeType;
 import token.Token;
@@ -7,7 +8,7 @@ import token.Token;
 /**
  * EqExp → RelExp | EqExp ('==' | '!=') RelExp
  */
-public class EqExpNode extends Node {
+public class EqExpNode extends ExpAlikeNode {
     private final EqExpNode eqExpNode;
     private final Token opToken;
     private final RelExpNode relExpNode;
@@ -17,6 +18,28 @@ public class EqExpNode extends Node {
         this.eqExpNode = eqExpNode;
         this.opToken = opToken;
         this.relExpNode = relExpNode;
+    }
+
+    @Override
+    public void evaluate() {
+        if (opToken == null) {
+            relExpNode.evaluate();
+            if (relExpNode.isConst()) {
+                isConst = true;
+                constValue = relExpNode.getConstValue();
+            }
+        } else {
+            eqExpNode.evaluate();
+            relExpNode.evaluate();
+            if (eqExpNode.isConst() && relExpNode.isConst()) {
+                isConst = true;
+                constValue = switch (opToken.getTokenType()) {
+                    case EQL -> eqExpNode.getConstValue() == relExpNode.getConstValue() ? 1 : 0;
+                    case NEQ -> eqExpNode.getConstValue() != relExpNode.getConstValue() ? 1 : 0;
+                    default -> throw new RuntimeException("invalid EqualOperator");
+                };
+            }
+        }
     }
 
     @Override

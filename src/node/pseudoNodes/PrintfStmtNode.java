@@ -31,6 +31,17 @@ public class PrintfStmtNode extends PseudoNode {
         this.semiToken = semiToken;
     }
 
+    public Token getPrintfToken() {
+        return printfToken;
+    }
+
+    public Token getStringConstToken() {
+        return stringConstToken;
+    }
+
+    public ArrayList<ExpNode> getExpNodes() {
+        return expNodes;
+    }
 
     @Override
     public String toString() {

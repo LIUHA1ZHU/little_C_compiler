@@ -1,5 +1,7 @@
 package node.nodes;
 
+import midEnd.visitor.LValVisitor;
+import node.ExpAlikeNode;
 import node.Node;
 import node.NodeType;
 import token.Token;
@@ -7,7 +9,7 @@ import token.Token;
 /**
  * PrimaryExp → '(' Exp ')' | LVal | Number
  */
-public class PrimaryExpNode extends Node {
+public class PrimaryExpNode extends ExpAlikeNode {
     private final Token lParent;
     private final ExpNode expNode;
     private final Token rParent;
@@ -21,6 +23,34 @@ public class PrimaryExpNode extends Node {
         this.rParent = rParent;
         this.lValNode = lValNode;
         this.numberNode = numberNode;
+    }
+
+    @Override
+    public void evaluate() {
+        if (lValNode != null) {
+            LValVisitor.visit(lValNode);
+        } else if (numberNode != null) {
+            // must be const
+            numberNode.evaluate();
+            constValue = numberNode.getConstValue();
+            isConst = true;
+        } else {
+            if (expNode.isConst()) {
+                expNode.evaluate();
+                constValue = expNode.getConstValue();
+                isConst = true;
+            }
+        }
+    }
+
+    // in funcRParams type check, only check single-symbol exp
+    public String propagateSymbolName() {
+        if (lValNode != null) {
+            return lValNode.propagateSymbolName();
+        } else if (numberNode != null) {
+            return numberNode.propagateSymbolName();
+        }
+        return "0";
     }
 
     @Override

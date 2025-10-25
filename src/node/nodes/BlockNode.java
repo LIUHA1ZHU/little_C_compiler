@@ -21,6 +21,14 @@ public class BlockNode extends Node {
         this.rBrace = rBrace;
     }
 
+    public ArrayList<BlockItemNode> getBlockItemNodes() {
+        return blockItemNodes;
+    }
+
+    public Token getrBrace() {
+        return rBrace;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

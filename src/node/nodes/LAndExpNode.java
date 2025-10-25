@@ -1,5 +1,6 @@
 package node.nodes;
 
+import node.ExpAlikeNode;
 import node.Node;
 import node.NodeType;
 import token.Token;
@@ -7,7 +8,7 @@ import token.Token;
 /**
  * LAndExp → EqExp | LAndExp '&&' EqExp
  */
-public class LAndExpNode extends Node {
+public class LAndExpNode extends ExpAlikeNode {
     private final LAndExpNode lAndExpNode;
     private final Token opToken;
     private final EqExpNode eqExpNode;
@@ -17,6 +18,24 @@ public class LAndExpNode extends Node {
         this.lAndExpNode = lAndExpNode;
         this.opToken = opToken;
         this.eqExpNode = eqExpNode;
+    }
+
+    @Override
+    public void evaluate() {
+        if (opToken == null) {
+            eqExpNode.evaluate();
+            if (eqExpNode.isConst()) {
+                isConst = true;
+                constValue = eqExpNode.getConstValue();
+            }
+        } else {
+            lAndExpNode.evaluate();
+            eqExpNode.evaluate();
+            if (eqExpNode.isConst() && lAndExpNode.isConst()) {
+                isConst = true;
+                constValue = lAndExpNode.getConstValue() & eqExpNode.getConstValue();
+            }
+        }
     }
 
     @Override
