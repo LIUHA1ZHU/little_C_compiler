@@ -42,6 +42,11 @@ public class Parser {
         rootNode = parseCompUnit();
     }
 
+    /**
+     * match token with expected TokenType, handle error i,j,k if needed
+     * @param tokenType expected TokenType
+     * @return matched token, return null if error i,j,k
+     */
     private Token matchToken(TokenType tokenType) {
         if (curToken.getTokenType() == tokenType) {
             Token tmp = curToken;
@@ -78,8 +83,14 @@ public class Parser {
         return peekToken.getTokenType().equals(tokenType);
     }
 
-    public static ArrayList<TokenType> potentialExpFirstToken = new ArrayList<>(Arrays.asList(TokenType.IDENFR, TokenType.PLUS, TokenType.MINU, TokenType.NOT, TokenType.LPARENT, TokenType.INTCON));
+    public static ArrayList<TokenType> potentialExpFirstToken = new ArrayList<>(Arrays.asList(
+            TokenType.IDENFR, TokenType.PLUS, TokenType.MINU, TokenType.NOT, TokenType.LPARENT, TokenType.INTCON));
 
+    /**
+     * when matching function calls, it would be tricky if the right parenthesis of real parameters list is absent
+     * @param tokenType token to be checked
+     * @return whether it is potentially in an expression
+     */
     public static boolean isPotentialExp(TokenType tokenType) {
         return potentialExpFirstToken.contains(tokenType);
     }

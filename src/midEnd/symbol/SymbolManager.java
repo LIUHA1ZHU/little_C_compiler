@@ -24,6 +24,12 @@ public class SymbolManager {
         symbolLog = new ArrayList<>();
     }
 
+    /**
+     * create a new symbolTable. It will be called every time a block is traversed
+     * @param funcSymbol if in function declaration, a funcSymbol is needed for error handling
+     * @param inheritFuncSymbol whether to inherit the funcSymbol from father symbolTable
+     *                          True only if the block is a StmtItem
+     */
     public static void createTableAndChangeCur(FuncSymbol funcSymbol, boolean inheritFuncSymbol) {
         if (inheritFuncSymbol) funcSymbol = curTable.getCurFuncSymbol();
         SymbolTable newTable = new SymbolTable(curMaxScope, curTable, funcSymbol);

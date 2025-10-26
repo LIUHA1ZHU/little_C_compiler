@@ -5,7 +5,7 @@ public class Config {
 
     private static final boolean atLocal = false;
 
-    public static final boolean LexerOutput = false;
+    public static final boolean LexerOutput = true;
 
     public static final boolean ErrorOutput = true;
 

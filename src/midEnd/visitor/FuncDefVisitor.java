@@ -23,6 +23,7 @@ public class FuncDefVisitor {
         // formal params
         ArrayList<Symbol> paramSymbolList = getParamSymbolList(funcDefNode);
 
+        // create funcSymbol
         FuncSymbol funcSymbol;
         if (isInt) funcSymbol = new FuncSymbol(name, Symbol.SymbolType.IntFunc, funcDefNode.getIdentToken().getLineNum(), paramSymbolList);
         else funcSymbol = new FuncSymbol(name, Symbol.SymbolType.VoidFunc, funcDefNode.getIdentToken().getLineNum(), paramSymbolList);

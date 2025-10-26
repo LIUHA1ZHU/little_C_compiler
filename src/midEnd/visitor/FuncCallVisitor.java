@@ -14,8 +14,16 @@ import java.util.ArrayList;
 
 public class FuncCallVisitor {
 
+    /**
+     * check error in function call:
+     *      function undefined
+     *      number of parameters unmatched
+     *      type of parameters unmatched
+     * @param identToken identifier of the function name
+     * @param funcRParamsNode contains real parameters
+     */
     public static void visit(Token identToken, FuncRParamsNode funcRParamsNode) {
-        if (identToken.getContent().equals("getint")) {
+        if (identToken.getContent().equals("getint")) { // pardon
             return;
         }
         ArrayList<Symbol> symbols = new ArrayList<>();

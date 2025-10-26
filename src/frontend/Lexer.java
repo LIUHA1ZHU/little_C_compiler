@@ -31,7 +31,7 @@ public class Lexer {
         do {
             curToken = next();
             tokenList.add(curToken);
-        } while (curToken != null);
+        } while (curToken != null);     // The last token will be NULL!!!
 
     }
 
@@ -195,7 +195,6 @@ public class Lexer {
         return tokenList;
     }
 
-    // including error
     public void outputTokenList() {
         StringBuilder sb = new StringBuilder();
         for (Token token : tokenList) {
