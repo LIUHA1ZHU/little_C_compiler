@@ -2,7 +2,6 @@ package node.nodes;
 
 import midEnd.visitor.LValVisitor;
 import node.ExpAlikeNode;
-import node.Node;
 import node.NodeType;
 import token.Token;
 
@@ -25,16 +24,25 @@ public class PrimaryExpNode extends ExpAlikeNode {
         this.numberNode = numberNode;
     }
 
+    public ExpNode getExpNode() {
+        return expNode;
+    }
+
+    public LValNode getlValNode() {
+        return lValNode;
+    }
+
     @Override
     public void evaluate() {
         if (lValNode != null) {
-            LValVisitor.visit(lValNode);
+            LValVisitor.evaluate(lValNode);
         } else if (numberNode != null) {
             // must be const
             numberNode.evaluate();
             constValue = numberNode.getConstValue();
             isConst = true;
         } else {
+            expNode.evaluate();
             if (expNode.isConst()) {
                 expNode.evaluate();
                 constValue = expNode.getConstValue();

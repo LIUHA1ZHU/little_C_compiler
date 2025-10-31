@@ -2,6 +2,7 @@ import error.ErrorHandler;
 import frontend.Lexer;
 import frontend.Parser;
 import midEnd.MidEnd;
+import midEnd.ir.IrBuilder;
 import midEnd.symbol.SymbolManager;
 import utils.Config;
 import utils.FileIO;
@@ -28,6 +29,10 @@ public class Compiler {
         midEnd.visit();
         if (Config.SymbolOutput) {
             SymbolManager.outputSymbol();
+        }
+
+        if (Config.IROutput) {
+            IrBuilder.outputIR();
         }
 
 

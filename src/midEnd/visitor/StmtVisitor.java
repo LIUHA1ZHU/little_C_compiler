@@ -3,9 +3,14 @@ package midEnd.visitor;
 import error.Error;
 import error.ErrorHandler;
 import error.ErrorType;
+import midEnd.ir.IrBuilder;
+import midEnd.ir.IrValue;
+import midEnd.ir.values.IrBasicBlock;
+import midEnd.ir.values.instructions.IrBranchInstruction;
+import midEnd.ir.values.instructions.IrInstructionType;
+import midEnd.ir.values.instructions.IrReturnInstruction;
 import midEnd.symbol.Symbol;
 import midEnd.symbol.SymbolManager;
-import midEnd.symbol.SymbolTable;
 import node.PseudoNode;
 import node.nodes.ExpNode;
 import node.nodes.ForStmtNode;
@@ -26,10 +31,13 @@ public class StmtVisitor {
             visitPseudo(stmtNode.getPseudoNode());
         } else if (stmtNode.getBlockNode() != null) {
             SymbolManager.createTableAndChangeCur(null, true);
-            BlockVisitor.visit(stmtNode.getBlockNode());
-            SymbolManager.goToFatherTable();
 
+            BlockVisitor.visit(stmtNode.getBlockNode());
+
+            SymbolManager.goToFatherTable();
+            // for error check
             SymbolManager.setLastIsReturn(false);
+
         } else {
             visitSingleBranch(stmtNode.getSingleBranchToken());
         }
@@ -97,12 +105,20 @@ public class StmtVisitor {
         SymbolManager.setLastIsReturn(false);
     }
 
+    /**
+     * return instruction doesn't need to be used. So there's no need to return a IrValue
+     * @param returnStmtNode to visit
+     */
     public static void visitReturn(ReturnStmtNode returnStmtNode) {
         if (returnStmtNode.getExpNode() != null) { // return <exp>;
             if (SymbolManager.getCurFuncSymbol().getSymbolType().equals(Symbol.SymbolType.VoidFunc)) {
                 ErrorHandler.addError(new Error(ErrorType.f, returnStmtNode.getReturnToken().getLineNum()));
             }
-            ExpVisitor.visit(returnStmtNode.getExpNode());
+            IrValue expValue = ExpVisitor.visit(returnStmtNode.getExpNode());
+            new IrReturnInstruction("ret", IrInstructionType.ReturnIntInstr, expValue);
+
+        } else {
+            //TODO
         }
 
         SymbolManager.setLastIsReturn(true);

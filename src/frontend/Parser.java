@@ -3,6 +3,7 @@ package frontend;
 import error.Error;
 import error.ErrorHandler;
 import error.ErrorType;
+import node.ExpAlikeNode;
 import node.PseudoNode;
 import node.nodes.*;
 import node.pseudoNodes.*;
@@ -88,7 +89,7 @@ public class Parser {
 
     /**
      * when matching function calls, it would be tricky if the right parenthesis of real parameters list is absent
-     * @param tokenType token to be checked
+     * @param tokenType token to check
      * @return whether it is potentially in an expression
      */
     public static boolean isPotentialExp(TokenType tokenType) {
@@ -248,7 +249,7 @@ public class Parser {
     private ConstInitValNode parseConstInitVal() {
         ConstExpNode constExpNode = null;
         Token lBrace = null;
-        ArrayList<ConstExpNode> constExpNodes = new ArrayList<>();
+        ArrayList<ExpAlikeNode> constExpNodes = new ArrayList<>();
         ArrayList<Token> commas = new ArrayList<>();
         Token rBrace = null;
 
@@ -271,7 +272,7 @@ public class Parser {
     // InitVal → Exp | '{' [ Exp { ',' Exp } ] '}'
     private InitValNode parseInitVal() {
         Token lBrace = null;
-        ArrayList<ExpNode> expNodes = new ArrayList<>();
+        ArrayList<ExpAlikeNode> expNodes = new ArrayList<>();
         ArrayList<Token> commas = new ArrayList<>();
         Token rBrace = null;
 

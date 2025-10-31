@@ -1,5 +1,6 @@
 package node.nodes;
 
+import node.ExpAlikeNode;
 import node.Node;
 import node.NodeType;
 import token.Token;
@@ -9,13 +10,13 @@ import java.util.ArrayList;
 /**
  * InitVal → Exp | '{' [ Exp { ',' Exp } ] '}'
  */
-public class InitValNode extends Node {
+public class InitValNode extends Node implements Init {
     private final Token lBrace;
-    private final ArrayList<ExpNode> expNodes;
+    private final ArrayList<ExpAlikeNode> expNodes;
     private final ArrayList<Token> commas;
     private final Token rBrace;
 
-    public InitValNode(Token lBrace, ArrayList<ExpNode> expNodes, ArrayList<Token> commas, Token rBrace) {
+    public InitValNode(Token lBrace, ArrayList<ExpAlikeNode> expNodes, ArrayList<Token> commas, Token rBrace) {
         super(NodeType.InitVal);
         this.lBrace = lBrace;
         this.expNodes = expNodes;
@@ -23,7 +24,7 @@ public class InitValNode extends Node {
         this.rBrace = rBrace;
     }
 
-    public ArrayList<ExpNode> getExpNodes() {
+    public ArrayList<ExpAlikeNode> getExpNodes() {
         return expNodes;
     }
 

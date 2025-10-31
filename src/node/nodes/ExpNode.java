@@ -24,6 +24,10 @@ public class ExpNode extends ExpAlikeNode {
         }
     }
 
+    public AddExpNode getAddExpNode() {
+        return addExpNode;
+    }
+
     // in funcRParams type check, only check single-symbol exp
     public String propagateSymbolName() {
         return addExpNode.propagateSymbolName();

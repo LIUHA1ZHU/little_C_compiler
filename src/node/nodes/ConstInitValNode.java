@@ -1,5 +1,6 @@
 package node.nodes;
 
+import node.ExpAlikeNode;
 import node.Node;
 import node.NodeType;
 import token.Token;
@@ -9,13 +10,13 @@ import java.util.ArrayList;
 /**
  *  ConstExp | '{' [ ConstExp { ',' ConstExp } ] '}'
  */
-public class ConstInitValNode extends Node {
+public class ConstInitValNode extends Node implements Init{
     private final Token lBrace;
-    private final ArrayList<ConstExpNode> constExpNodes;
+    private final ArrayList<ExpAlikeNode> constExpNodes;
     private final ArrayList<Token> commas;
     private final Token rBrace;
 
-    public ConstInitValNode(Token lBrace, ArrayList<ConstExpNode> constExpNodes, ArrayList<Token> commas, Token rBrace) {
+    public ConstInitValNode(Token lBrace, ArrayList<ExpAlikeNode> constExpNodes, ArrayList<Token> commas, Token rBrace) {
         super(NodeType.ConstInitVal);
         this.lBrace = lBrace;
         this.constExpNodes = constExpNodes;
@@ -23,7 +24,7 @@ public class ConstInitValNode extends Node {
         this.rBrace = rBrace;
     }
 
-    public ArrayList<ConstExpNode> getConstExpNodes() {
+    public ArrayList<ExpAlikeNode> getExpNodes() {
         return constExpNodes;
     }
 

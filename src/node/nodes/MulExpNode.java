@@ -20,6 +20,18 @@ public class MulExpNode extends ExpAlikeNode {
         this.mulExpNode = mulExpNode;
     }
 
+    public UnaryExpNode getUnaryExpNode() {
+        return unaryExpNode;
+    }
+
+    public Token getOpToken() {
+        return opToken;
+    }
+
+    public MulExpNode getMulExpNode() {
+        return mulExpNode;
+    }
+
     @Override
     public void evaluate() {
         if (opToken == null) {

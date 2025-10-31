@@ -41,6 +41,10 @@ public class SymbolTable {
         return curFuncSymbol;
     }
 
+    public ArrayList<SymbolTable> getSonTables() {
+        return sonTables;
+    }
+
     public boolean lastIsReturn() {
         return lastIsReturn;
     }
@@ -73,6 +77,9 @@ public class SymbolTable {
         return null;
     }
 
+    /**
+     * CHECK BY NAME
+     */
     public boolean containsSymbol(Symbol symbol) {
         return symbolMap.containsKey(symbol.getName());
     }

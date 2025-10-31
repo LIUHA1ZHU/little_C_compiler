@@ -31,6 +31,26 @@ public class UnaryExpNode extends ExpAlikeNode {
         this.unaryExpNode = unaryExpNode;
     }
 
+    public PrimaryExpNode getPrimaryExpNode() {
+        return primaryExpNode;
+    }
+
+    public Token getIdent() {
+        return ident;
+    }
+
+    public FuncRParamsNode getFuncRParamsNode() {
+        return funcRParamsNode;
+    }
+
+    public UnaryOpNode getUnaryOpNode() {
+        return unaryOpNode;
+    }
+
+    public UnaryExpNode getUnaryExpNode() {
+        return unaryExpNode;
+    }
+
     @Override
     public void evaluate() {
         if (primaryExpNode != null) {

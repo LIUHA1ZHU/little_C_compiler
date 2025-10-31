@@ -3,6 +3,8 @@ package midEnd.visitor;
 import error.Error;
 import error.ErrorHandler;
 import error.ErrorType;
+import midEnd.ir.IrBuilder;
+import midEnd.ir.values.IrConstant;
 import midEnd.symbol.FuncSymbol;
 import midEnd.symbol.Symbol;
 import midEnd.symbol.SymbolManager;
@@ -21,7 +23,7 @@ public class FuncDefVisitor {
         String name = funcDefNode.getIdentToken().getContent();
         boolean isInt = funcDefNode.getFuncTypeNode().getFuncType().getTokenType().equals(TokenType.INTTK);
         // formal params
-        ArrayList<Symbol> paramSymbolList = getParamSymbolList(funcDefNode);
+        ArrayList<Symbol> paramSymbolList = createParamSymbolList(funcDefNode);
 
         // create funcSymbol
         FuncSymbol funcSymbol;
@@ -29,35 +31,45 @@ public class FuncDefVisitor {
         else funcSymbol = new FuncSymbol(name, Symbol.SymbolType.VoidFunc, funcDefNode.getIdentToken().getLineNum(), paramSymbolList);
         SymbolManager.addSymbol(funcSymbol);
 
+        // add params & visit block
         SymbolManager.createTableAndChangeCur(funcSymbol, false);
-        for (Symbol paramSymbol : paramSymbolList) {
-            SymbolManager.addSymbol(paramSymbol);
-        }
+        paramSymbolList.forEach(SymbolManager::addSymbol);
+
+        IrBuilder.createBasicBlock("entry");
         BlockVisitor.visit(funcDefNode.getBlockNode());
+        IrBuilder.finishBasicBlockAndAddToFunc();
+
         if (!SymbolManager.getLastIsReturn() && funcSymbol.getSymbolType().equals(Symbol.SymbolType.IntFunc)) {
             ErrorHandler.addError(new Error(ErrorType.g, funcDefNode.getBlockNode().getrBrace().getLineNum()));
         }
         SymbolManager.goToFatherTable();
     }
 
-    private static ArrayList<Symbol> getParamSymbolList(FuncDefNode funcDefNode) {
+    private static ArrayList<Symbol> createParamSymbolList(FuncDefNode funcDefNode) {
         if (funcDefNode.getFuncFParamsNode() == null) {
             return new ArrayList<>();
         }
         ArrayList<Symbol> paramSymbolList = new ArrayList<>();
         for (FuncFParamNode funcFParamNode : funcDefNode.getFuncFParamsNode().getFuncFParamNodes()) {
-            ValueSymbol valueSymbol;
-            Token identToken = funcFParamNode.getIdentToken();
-            // must be 'int'
-            if (funcFParamNode.getlBracket() != null) { // Array type
-                // omit arrayLength here
-                valueSymbol = new ValueSymbol(identToken.getContent(), Symbol.SymbolType.IntArray, identToken.getLineNum(), 0);
-            } else {
-                valueSymbol = new ValueSymbol(identToken.getContent(), Symbol.SymbolType.Int, identToken.getLineNum(), 1);
-            }
+            ValueSymbol valueSymbol = createValueSymbol(funcFParamNode);
             paramSymbolList.add(valueSymbol);
         }
         return paramSymbolList;
+    }
+
+    private static ValueSymbol createValueSymbol(FuncFParamNode funcFParamNode) {
+        ValueSymbol valueSymbol;
+        Token identToken = funcFParamNode.getIdentToken();
+        // must be 'int'
+        if (funcFParamNode.getlBracket() != null) { // Array type
+            // omit arrayLength here
+            valueSymbol = new ValueSymbol(identToken.getContent(), Symbol.SymbolType.IntArray,
+                    identToken.getLineNum(), 0);
+        } else {
+            valueSymbol = new ValueSymbol(identToken.getContent(), Symbol.SymbolType.Int,
+                    identToken.getLineNum(), 1);
+        }
+        return valueSymbol;
     }
 
 }

@@ -1,6 +1,5 @@
 package node.nodes;
 
-import midEnd.symbol.Symbol;
 import node.Node;
 import node.NodeType;
 import token.Token;

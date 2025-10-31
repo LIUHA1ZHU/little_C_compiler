@@ -3,6 +3,8 @@ package midEnd;
 import error.Error;
 import error.ErrorHandler;
 import error.ErrorType;
+import midEnd.ir.IrBuilder;
+import midEnd.ir.values.IrFunction;
 import midEnd.symbol.FuncSymbol;
 import midEnd.symbol.Symbol;
 import midEnd.symbol.SymbolManager;
@@ -35,7 +37,13 @@ public class MidEnd {
         // MainFuncDef
         SymbolManager.createTableAndChangeCur(new FuncSymbol("main", Symbol.SymbolType.IntFunc,
                 rootNode.getMainFuncDefNode().getMainToken().getLineNum(), new ArrayList<>()), false);
+        IrBuilder.createFunc("main", IrFunction.IrFunctionType.intFunc, null);
+
+        IrBuilder.createBasicBlock("entry");
         BlockVisitor.visit(rootNode.getMainFuncDefNode().getBlockNode());
+        IrBuilder.finishBasicBlockAndAddToFunc();
+
+        IrBuilder.finishFuncAndAddToModule();
         if (!SymbolManager.getLastIsReturn()) {
             ErrorHandler.addError(new Error(ErrorType.g, rootNode.getMainFuncDefNode().getBlockNode().getrBrace().getLineNum()));
         }

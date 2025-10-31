@@ -3,7 +3,7 @@ package utils;
 public class Config {
     private static final String workingDir = System.getProperty("user.dir");
 
-    private static final boolean atLocal = false;
+    private static final boolean atLocal = true;
 
     public static final boolean LexerOutput = true;
 
@@ -13,7 +13,9 @@ public class Config {
 
     public static final boolean SymbolOutput = true;
 
-    public static final String LocalInputFilePath = workingDir + "/test_cases/testfile_s.txt";
+    public static final boolean IROutput = true;
+
+    public static final String LocalInputFilePath = workingDir + "/test_cases/testfile_ir.txt";
 
     public static final String OnlineInputFilePath = "testfile.txt";
 
@@ -29,9 +31,13 @@ public class Config {
 
     public static final String OnlineParserOutputPath = "parser.txt";
 
-    public static final String LocalSymbolOutputPath =  workingDir+ "/output/symbol.txt";
+    public static final String LocalSymbolOutputPath =  workingDir + "/output/symbol.txt";
 
     public static final String OnlineSymbolOutputPath = "symbol.txt";
+
+    public static final String LocalIROutputPath = workingDir + "/output/llvm_ir.txt";
+
+    public static final String OnlineIROutputPath = "llvm_ir.txt";
 
 
     // all set
@@ -44,4 +50,6 @@ public class Config {
     public static final String ParserOutputPath = atLocal ? LocalParserOutputPath : OnlineParserOutputPath;
 
     public static final String SymbolOutputPath = atLocal ? LocalSymbolOutputPath : OnlineSymbolOutputPath;
+
+    public static final String IROutputPath = atLocal ? LocalIROutputPath : OnlineIROutputPath;
 }

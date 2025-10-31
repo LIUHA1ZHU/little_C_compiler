@@ -9,11 +9,21 @@ public class Symbol {
     private final String name;
     private final SymbolType symbolType;
     private final int lineNum;
+    private int shadowingNum;
 
     public Symbol(String name, SymbolType symbolType, int lineNum) {
         this.name = name;
         this.symbolType = symbolType;
         this.lineNum = lineNum;
+        this.shadowingNum = 0;
+    }
+
+    public int getShadowingNum() {
+        return shadowingNum;
+    }
+
+    public void setShadowingNum(int shadowingNum) {
+        this.shadowingNum = shadowingNum;
     }
 
     public String getName() {
