@@ -1,18 +1,21 @@
 package node.nodes;
 
-import node.ExpAlikeNode;
-import node.Node;
+import node.CondAlikeNode;
 import node.NodeType;
 
 /**
  * Cond → LOrExp
  */
-public class CondNode extends ExpAlikeNode {
+public class CondNode extends CondAlikeNode {
     private final LOrExpNode lOrExpNode;
 
     public CondNode(LOrExpNode lOrExpNode) {
         super(NodeType.Cond);
         this.lOrExpNode = lOrExpNode;
+    }
+
+    public LOrExpNode getlOrExpNode() {
+        return lOrExpNode;
     }
 
     @Override

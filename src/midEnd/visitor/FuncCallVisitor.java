@@ -3,9 +3,15 @@ package midEnd.visitor;
 import error.Error;
 import error.ErrorHandler;
 import error.ErrorType;
+import midEnd.ir.IrBuilder;
+import midEnd.ir.IrValue;
+import midEnd.ir.values.IrConstant;
+import midEnd.ir.values.IrFunction;
+import midEnd.ir.values.instructions.IrCallInstruction;
 import midEnd.symbol.FuncSymbol;
 import midEnd.symbol.Symbol;
 import midEnd.symbol.SymbolManager;
+import midEnd.symbol.ValueSymbol;
 import node.nodes.ExpNode;
 import node.nodes.FuncRParamsNode;
 import token.Token;
@@ -15,6 +21,7 @@ import java.util.ArrayList;
 public class FuncCallVisitor {
 
     /**
+     * Called in evaluate.
      * check error in function call:
      *      function undefined
      *      number of parameters unmatched
@@ -44,8 +51,32 @@ public class FuncCallVisitor {
         checkFuncCall(identToken, symbols);
     }
 
-    public static void checkFuncCall(Token identToken, ArrayList<Symbol> funcRParamSymbols) {
+    public static IrValue getFuncIr(Token identToken, FuncRParamsNode funcRParamsNode) {
+        if (ErrorHandler.hasError()) return new IrConstant(0);
+
+        FuncSymbol funcSymbol = SymbolManager.getFuncSymbol(identToken.getContent());
+        IrValue funcIr = funcSymbol.getIrValue();
+
+        ArrayList<IrValue> params = new ArrayList<>();
+
+        ArrayList<ExpNode> realParams = new ArrayList<>();
+        if (funcRParamsNode != null) {
+               realParams = funcRParamsNode.getExpNodeList();
+        }
+        for (ExpNode exp : realParams) {
+            // ignore exp like `arr + 1` where arr is an array
+            params.add(ExpVisitor.visit(exp));
+        }
+
+        return new IrCallInstruction((IrFunction) funcIr, params);
+    }
+
+    private static void checkFuncCall(Token identToken, ArrayList<Symbol> funcRParamSymbols) {
         Symbol symbol = SymbolManager.getSymbolDefined(identToken.getContent(), identToken.getLineNum());
+        if (symbol instanceof ValueSymbol) {
+            ErrorHandler.addError(new Error(ErrorType.c, identToken.getLineNum()));
+            return;
+        }
         if (symbol == null) return;
 
         int funcRPNum = ((FuncSymbol) symbol).getParams().size();

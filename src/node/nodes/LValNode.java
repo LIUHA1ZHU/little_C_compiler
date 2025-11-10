@@ -1,5 +1,13 @@
 package node.nodes;
 
+import error.Error;
+import error.ErrorHandler;
+import error.ErrorType;
+import midEnd.symbol.FuncSymbol;
+import midEnd.symbol.Symbol;
+import midEnd.symbol.SymbolManager;
+import midEnd.symbol.ValueSymbol;
+import node.ExpAlikeNode;
 import node.Node;
 import node.NodeType;
 import token.Token;
@@ -7,7 +15,7 @@ import token.Token;
 /**
  * LVal → Ident ['[' Exp ']']
  */
-public class LValNode extends Node {
+public class LValNode extends ExpAlikeNode {
     private final Token identToken;
     private final Token lBracket;
     private final ExpNode expNode;
@@ -44,6 +52,27 @@ public class LValNode extends Node {
             return identToken + printNodeType();
         } else {
             return String.valueOf(identToken) + lBracket + expNode + rBracket + printNodeType();
+        }
+    }
+
+    // TODO ugly
+    @Override
+    public void evaluate() { // must be a valueSymbol
+        Symbol symbol = SymbolManager.getSymbolDefined(getIdentToken().getContent(), getIdentToken().getLineNum());
+        if (symbol instanceof FuncSymbol) {
+            ErrorHandler.addError(new Error(ErrorType.c, identToken.getLineNum()));
+            return;
+        }
+        if (symbol == null) return;
+        if (((ValueSymbol) symbol).getConstValues() != null && !((ValueSymbol) symbol).getConstValues().isEmpty() &&
+                (symbol.getSymbolType().equals(Symbol.SymbolType.ConstInt) || symbol.getSymbolType().equals(Symbol.SymbolType.ConstIntArray))) { // const
+            if (((ValueSymbol) symbol).getLength() != 1) { // array
+                //TODO
+
+            } else {
+                constValue = ((ValueSymbol) symbol).getConstValues().get(0);
+                isConst = true;
+            }
         }
     }
 }

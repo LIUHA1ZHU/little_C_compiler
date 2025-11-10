@@ -18,6 +18,12 @@ public class Error {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Error)) return false;
+        return ((Error) o).getLineNum() == this.lineNum && ((Error) o).getErrorType().equals(this.getErrorType());
+    }
+
+    @Override
     public String toString() {
         return lineNum + " " + errorType + "\n";
     }

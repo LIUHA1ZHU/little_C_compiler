@@ -1,5 +1,8 @@
 package midEnd.ir.values.instructions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public enum IrInstructionType {
     ReturnIntInstr,
     ReturnVoidInstr,
@@ -7,8 +10,22 @@ public enum IrInstructionType {
 
     ArithmeticInstr,
     AllocateInstr,
+    IcmpInstr,
+    ExtendInstr,
     StoreInstr,
     LoadInstr,
+    CallInstr,
 
-    GlobalVariable,
+    GetIntInstr,
+    PutIntInstr,
+    PutStrInstr,
+
+    GEPInstr,
+
+    GlobalVariable;
+
+    public String getValueType() {
+        if (this == GEPInstr || this == AllocateInstr) return "i32 *";
+        else return "i32";
+    }
 }

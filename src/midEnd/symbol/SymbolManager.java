@@ -8,6 +8,7 @@ import utils.FileIO;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class SymbolManager {
     private static SymbolTable rootTable = null;
@@ -17,11 +18,14 @@ public class SymbolManager {
 
     private static int forLoopDepth = 0;
 
+    private static HashMap<String, Integer> variableShadowingMap; // special thanks to zyq
+
     public static void init() {
         rootTable = new SymbolTable(curMaxScope, null, null);
         curMaxScope++;
         curTable = rootTable;
         symbolLog = new ArrayList<>();
+        variableShadowingMap = new HashMap<>();
     }
 
     /**
@@ -48,46 +52,13 @@ public class SymbolManager {
     public static void addSymbol(Symbol symbol) {
         if (!checkSymbolRedefined(symbol)) {
             // check variable shadowing
-            Symbol potentialShadowing = getPreviousShadowing(symbol, curTable);
-            Symbol sonsShadowing = recurGetSonsShadowing(symbol, curTable);
-            if (potentialShadowing == null && sonsShadowing == null) { // first appearance
-                symbol.setShadowingNum(0);
-            } else {
-                // get the symbol with max shadowingNum
-                Symbol shadowing = potentialShadowing == null ? sonsShadowing :
-                        (sonsShadowing == null ? potentialShadowing :
-                                (potentialShadowing.getShadowingNum() > sonsShadowing.getShadowingNum() ? potentialShadowing : sonsShadowing));
-                symbol.setShadowingNum(shadowing.getShadowingNum() + 1);
-            }
+            Integer shadowingNum = variableShadowingMap.get(symbol.getName());
+            shadowingNum = shadowingNum == null ? 0 : shadowingNum + 1;
+            variableShadowingMap.put(symbol.getName(), shadowingNum);
+            symbol.setShadowingNum(shadowingNum);
+
             curTable.addSymbol(symbol);
         }
-    }
-
-    private static Symbol getPreviousShadowing(Symbol symbol, SymbolTable table) {
-        if (table.containsSymbol(symbol)) {
-            return table.getSymbolDefined(symbol.getName());
-        }
-        if (table.getFatherTable() != null) {
-            return getPreviousShadowing(symbol, table.getFatherTable());
-        }
-        return null;
-    }
-
-    /**
-     * check recursively if son table contains a shadowing variable
-     */
-    private static Symbol recurGetSonsShadowing(Symbol symbol, SymbolTable table) {
-        Symbol maxShadowing = null;
-        Symbol curShadowing = null;
-        maxShadowing = table.getSymbolDefined(symbol.getName());
-        for (SymbolTable sonTable : table.getSonTables()) {
-            if (sonTable != table) {
-                curShadowing = recurGetSonsShadowing(symbol, sonTable);
-                maxShadowing = maxShadowing == null ? curShadowing :
-                        (curShadowing.getShadowingNum() > maxShadowing.getShadowingNum() ? curShadowing : maxShadowing);
-            }
-        }
-        return maxShadowing;
     }
 
     public static void end() {
@@ -131,6 +102,10 @@ public class SymbolManager {
         }
     }
 
+    public static FuncSymbol getFuncSymbol(String name) {
+        return (FuncSymbol) rootTable.getSymbolDefined(name);
+    }
+
     public static boolean checkSymbolRedefined(Symbol symbol) {
         boolean defined = curTable.containsSymbol(symbol);
         if (defined) {
@@ -154,6 +129,10 @@ public class SymbolManager {
 
     public static int getForLoopDepth() {
         return forLoopDepth;
+    }
+
+    public static int getCurScope() {
+        return curTable.getScope();
     }
 
     public static void outputSymbol() {

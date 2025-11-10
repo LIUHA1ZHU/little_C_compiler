@@ -1,5 +1,6 @@
 package node.nodes;
 
+import node.CondAlikeNode;
 import node.ExpAlikeNode;
 import node.Node;
 import node.NodeType;
@@ -8,7 +9,7 @@ import token.Token;
 /**
  * LAndExp → EqExp | LAndExp '&&' EqExp
  */
-public class LAndExpNode extends ExpAlikeNode {
+public class LAndExpNode extends CondAlikeNode {
     private final LAndExpNode lAndExpNode;
     private final Token opToken;
     private final EqExpNode eqExpNode;
@@ -18,6 +19,18 @@ public class LAndExpNode extends ExpAlikeNode {
         this.lAndExpNode = lAndExpNode;
         this.opToken = opToken;
         this.eqExpNode = eqExpNode;
+    }
+
+    public LAndExpNode getlAndExpNode() {
+        return lAndExpNode;
+    }
+
+    public Token getOpToken() {
+        return opToken;
+    }
+
+    public EqExpNode getEqExpNode() {
+        return eqExpNode;
     }
 
     @Override

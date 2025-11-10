@@ -11,6 +11,10 @@ public class IrConstant extends IrValue {
         this.constValue = constValue;
     }
 
+    public int getConstValue() {
+        return constValue;
+    }
+
     @Override
     public String toString() {
         return "i32 " + constValue;

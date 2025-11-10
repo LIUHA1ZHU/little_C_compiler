@@ -16,6 +16,6 @@ public class IrStoreInstruction extends IrInstruction {
 
     @Override
     public String toString() {
-        return "store i32 " + getFirstUseValue().getName() + ", ptr " +  getObjectiveUseValue().getName() + ", align 4\n";
+        return "store i32 " + getFirstUseValue().getName() + ", i32* " +  getObjectiveUseValue().getName() + ", align 4\n";
     }
 }

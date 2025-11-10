@@ -20,6 +20,18 @@ public class RelExpNode extends ExpAlikeNode {
         this.addExpNode = addExpNode;
     }
 
+    public RelExpNode getRelExpNode() {
+        return relExpNode;
+    }
+
+    public Token getOpToken() {
+        return opToken;
+    }
+
+    public AddExpNode getAddExpNode() {
+        return addExpNode;
+    }
+
     @Override
     public void evaluate() {
         if (opToken == null) {

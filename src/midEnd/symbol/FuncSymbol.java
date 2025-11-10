@@ -1,5 +1,7 @@
 package midEnd.symbol;
 
+import midEnd.ir.IrValue;
+
 import java.util.ArrayList;
 
 public class FuncSymbol extends Symbol{

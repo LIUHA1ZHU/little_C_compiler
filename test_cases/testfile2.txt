@@ -1,7 +1,7 @@
 const int con1 = 1, con2 = 2;
 int nums1[10];
 int nums2[9 + 1];
-int nums3[2*5] = {1};
+int nums3[con2*5] = {1};
 int nums4[10] = {1,2};
 int nums5[10] = {1,2,3,4,2+3};
 
@@ -46,5 +46,5 @@ int main() {
 	printf("%d ", cnums1[4]);
 	printf("%d ", snums4[0]);
 	printf("%d ", iarrFunc(snums5));
-	
+	return 0;
 }

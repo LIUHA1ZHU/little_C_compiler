@@ -3,7 +3,7 @@ package utils;
 public class Config {
     private static final String workingDir = System.getProperty("user.dir");
 
-    private static final boolean atLocal = true;
+    private static final boolean atLocal = false;
 
     public static final boolean LexerOutput = true;
 

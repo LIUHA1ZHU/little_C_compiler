@@ -10,7 +10,9 @@ public class ErrorHandler {
 
     public static void addError(Error error) {
         hasError = true;
-        errorList.add(error);
+        if (!errorList.contains(error)) {
+            errorList.add(error);
+        }
     }
 
     public static boolean hasError() {

@@ -2,36 +2,62 @@ package midEnd.visitor;
 
 import midEnd.ir.IrValue;
 import midEnd.ir.IrValueType;
+import midEnd.ir.values.IrConstant;
 import midEnd.ir.values.IrGlobalVariable;
 import midEnd.ir.values.IrVariable;
+import midEnd.ir.values.instructions.IrGEPInstruction;
 import midEnd.ir.values.instructions.IrLoadInstruction;
 import midEnd.symbol.Symbol;
 import midEnd.symbol.SymbolManager;
+import midEnd.symbol.ValueSymbol;
 import node.nodes.LValNode;
 
 public class LValVisitor {
 
     /**
-     * Called in evaluate.
-     * Just for error check
-     */
-    public static void evaluate(LValNode lValNode) {
-        Symbol symbol = SymbolManager.getSymbolDefined(lValNode.getIdentToken().getContent(), lValNode.getIdentToken().getLineNum());
-    }
-
-    /**
-     * get symbol & generate an IrLoadInstruction
+     * get symbol & generate an IrLoadInstruction. (Constants are solved in evaluate)
      * @return IrLoadInstruction
      */
     public static IrValue visit(LValNode lValNode) {
         String name = lValNode.getIdentToken().getContent();
         Symbol symbol = SymbolManager.getSymbolDefined(name, lValNode.getIdentToken().getLineNum());
-        boolean isGlobal = SymbolManager.checkSymbolIsGlobal(symbol);
 
+        if (symbol == null) return new IrConstant(0); // has error
 
-        if (symbol != null) {
-            IrValue irVariable = new IrVariable(name + symbol.getShadowingNum(), isGlobal);
-            return new IrLoadInstruction(irVariable);
-        } else return null; // has error
+        if (symbol.getSymbolType().equals(Symbol.SymbolType.ConstInt)) { // global or local
+            return new IrConstant(((ValueSymbol) symbol).getConstValues().get(0));
+        }
+
+        if (symbol.getSymbolType().equals(Symbol.SymbolType.StaticInt)) {
+            return new IrLoadInstruction(symbol.getIrValue());
+        }
+
+        if (symbol.getSymbolType().equals(Symbol.SymbolType.Int)) {
+            if (symbol.getIrValue() instanceof IrVariable && ((IrVariable) symbol.getIrValue()).isFuncFormal()) return symbol.getIrValue();
+            return new IrLoadInstruction(symbol.getIrValue());
+        }
+
+        // Array
+        if (lValNode.getExpNode() == null) { // in funcRParam, decay
+            return new IrGEPInstruction(symbol.getIrValue(), new IrConstant(0));
+        }
+        return visitArray(lValNode, symbol);
+
+//        IrValue irVariable = new IrVariable(name + symbol.getShadowingNum(), isGlobal);
+//        return new IrLoadInstruction(irVariable);
+
+    }
+
+    private static IrValue visitArray(LValNode lValNode, Symbol symbol) {
+        lValNode.getExpNode().evaluate();
+        if (lValNode.getExpNode().isConst()) { // index is const
+            if (symbol.getSymbolType().equals(Symbol.SymbolType.ConstIntArray)) {
+                return new IrConstant(((ValueSymbol) symbol).getConstValues().get(lValNode.getExpNode().getConstValue()));
+            }
+        }
+
+        IrValue index = ExpVisitor.visit(lValNode.getExpNode());
+        IrGEPInstruction gep = new IrGEPInstruction(symbol.getIrValue(), index);
+        return new IrLoadInstruction(gep);
     }
 }

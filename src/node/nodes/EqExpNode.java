@@ -1,5 +1,6 @@
 package node.nodes;
 
+import node.CondAlikeNode;
 import node.ExpAlikeNode;
 import node.Node;
 import node.NodeType;
@@ -8,7 +9,7 @@ import token.Token;
 /**
  * EqExp → RelExp | EqExp ('==' | '!=') RelExp
  */
-public class EqExpNode extends ExpAlikeNode {
+public class EqExpNode extends CondAlikeNode {
     private final EqExpNode eqExpNode;
     private final Token opToken;
     private final RelExpNode relExpNode;
@@ -18,6 +19,18 @@ public class EqExpNode extends ExpAlikeNode {
         this.eqExpNode = eqExpNode;
         this.opToken = opToken;
         this.relExpNode = relExpNode;
+    }
+
+    public EqExpNode getEqExpNode() {
+        return eqExpNode;
+    }
+
+    public Token getOpToken() {
+        return opToken;
+    }
+
+    public RelExpNode getRelExpNode() {
+        return relExpNode;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package node.nodes;
 
+import midEnd.symbol.Symbol;
+import midEnd.symbol.ValueSymbol;
 import midEnd.visitor.LValVisitor;
 import node.ExpAlikeNode;
 import node.NodeType;
@@ -35,7 +37,11 @@ public class PrimaryExpNode extends ExpAlikeNode {
     @Override
     public void evaluate() {
         if (lValNode != null) {
-            LValVisitor.evaluate(lValNode);
+            lValNode.evaluate();
+            if (lValNode.isConst()) {
+                constValue = lValNode.getConstValue();
+                isConst = true;
+            }
         } else if (numberNode != null) {
             // must be const
             numberNode.evaluate();

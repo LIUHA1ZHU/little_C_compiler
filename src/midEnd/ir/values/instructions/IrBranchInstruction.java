@@ -1,24 +1,38 @@
 package midEnd.ir.values.instructions;
 
+import midEnd.ir.IrBuilder;
 import midEnd.ir.IrValue;
 import midEnd.ir.values.IrBasicBlock;
 import midEnd.ir.values.IrInstruction;
 
+/**
+ * conditional branch when cond != null
+ * unconditional branch destination can be both trueDestination or falseDestination
+ */
 public class IrBranchInstruction extends IrInstruction {
-    public IrBranchInstruction(String name, IrValue cond, IrValue ifTrue, IrValue ifFalse) {
-        super(name, IrInstructionType.BranchInstr, ifTrue, ifFalse, cond);
+    private IrBasicBlock inBasicBlock;
+
+    public IrBranchInstruction(IrValue cond) {
+        super("branch", IrInstructionType.BranchInstr, null, null, cond);
+        this.inBasicBlock = IrBuilder.getCurBasicBlock();
+        IrBuilder.finishBasicBlockAndAddToFunc();
     }
 
-    public IrBranchInstruction(String name, IrValue destination) {
-        super(name, IrInstructionType.BranchInstr, destination, null, null);
-    }
-
-    public void setDestination(IrBasicBlock basicBlock) {
+    public void setTrueDestination(IrBasicBlock basicBlock) {
         setUseValue1(basicBlock);
+    }
+
+    public void setFalseDestination(IrBasicBlock basicBlock) {
+        setUseValue2(basicBlock);
     }
 
     @Override
     public String toString() {
-        return "";
+        if (getObjectiveUseValue() == null) { // direct branch
+            return "br label %" + (getFirstUseValue() != null ? getFirstUseValue().getName() : getSecondUseValue().getName()) + "\n";
+        } else {
+            return "br i1 " + getObjectiveUseValue().getName() + ", label %" + getFirstUseValue().getName() + ", label %"
+                    + getSecondUseValue().getName() + "\n";
+        }
     }
 }

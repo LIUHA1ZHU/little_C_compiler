@@ -6,6 +6,9 @@ import midEnd.ir.IrValueType;
 import midEnd.ir.values.IrInstruction;
 
 public class IrLoadInstruction extends IrInstruction {
+    /**
+     * Just the name matters
+     */
     public IrLoadInstruction(IrValue memPtr) {
         super(IrBuilder.LocalPrefix + IrBuilder.getTempVarNum(), IrInstructionType.LoadInstr, null, null, memPtr);
     }

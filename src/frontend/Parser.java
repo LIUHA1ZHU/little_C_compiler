@@ -46,7 +46,7 @@ public class Parser {
     /**
      * match token with expected TokenType, handle error i,j,k if needed
      * @param tokenType expected TokenType
-     * @return matched token, return null if error i,j,k
+     * @return matched token, return a new token with expected type if error i,j,k
      */
     private Token matchToken(TokenType tokenType) {
         if (curToken.getTokenType() == tokenType) {
@@ -110,7 +110,7 @@ public class Parser {
             declNodes.add(parseDecl());
         }
 
-        //FuncDef
+        // FuncDef
         while (!peek(1, TokenType.MAINTK)) {
             funcDefNodes.add(parseFuncDef());
         }

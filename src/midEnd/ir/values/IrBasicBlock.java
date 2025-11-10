@@ -19,6 +19,7 @@ public class IrBasicBlock extends IrValue {
     }
 
     public boolean notEndWithTerminator() {
+        if (instructions.isEmpty()) return true;
         IrInstructionType lastInstrType = instructions.get(instructions.size() - 1).getInstructionType();
         return !(lastInstrType.equals(IrInstructionType.ReturnVoidInstr) || lastInstrType.equals(IrInstructionType.ReturnIntInstr)
                 || lastInstrType.equals(IrInstructionType.BranchInstr));

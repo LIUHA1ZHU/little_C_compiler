@@ -2,6 +2,7 @@ package node.nodes;
 
 import node.Node;
 import node.NodeType;
+import node.pseudoNodes.LValAssignStmtNode;
 import token.Token;
 
 import java.util.ArrayList;
@@ -15,12 +16,20 @@ public class ForStmtNode extends Node {
     private final ArrayList<ExpNode> expNodes;
     private final ArrayList<Token> commaTokens;
 
+    private final ArrayList<LValAssignStmtNode> lValAssignStmtNodes;
+
     public ForStmtNode(ArrayList<LValNode> lValNodes, ArrayList<Token> assignTokens, ArrayList<ExpNode> expNodes, ArrayList<Token> commaTokens) {
         super(NodeType.ForStmt);
         this.lValNodes = lValNodes;
         this.assignTokens = assignTokens;
         this.expNodes = expNodes;
         this.commaTokens = commaTokens;
+        this.lValAssignStmtNodes = new ArrayList<>();
+        for (int i = 0; i < lValNodes.size(); i++) {
+            LValNode lVal = lValNodes.get(i);
+            ExpNode expNode = expNodes.get(i);
+            lValAssignStmtNodes.add(new LValAssignStmtNode(lVal, null, expNode, null));
+        }
     }
 
     public ArrayList<LValNode> getlValNodes() {
@@ -29,6 +38,10 @@ public class ForStmtNode extends Node {
 
     public ArrayList<ExpNode> getExpNodes() {
         return expNodes;
+    }
+
+    public ArrayList<LValAssignStmtNode> getlValAssignStmtNodes() {
+        return lValAssignStmtNodes;
     }
 
     @Override

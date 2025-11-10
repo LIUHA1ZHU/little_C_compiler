@@ -4,6 +4,7 @@ import error.Error;
 import error.ErrorHandler;
 import error.ErrorType;
 import midEnd.ir.IrBuilder;
+import midEnd.ir.IrValue;
 import midEnd.ir.values.IrFunction;
 import midEnd.symbol.FuncSymbol;
 import midEnd.symbol.Symbol;
@@ -35,9 +36,11 @@ public class MidEnd {
             FuncDefVisitor.visit(funcDefNode);
         }
         // MainFuncDef
-        SymbolManager.createTableAndChangeCur(new FuncSymbol("main", Symbol.SymbolType.IntFunc,
-                rootNode.getMainFuncDefNode().getMainToken().getLineNum(), new ArrayList<>()), false);
-        IrBuilder.createFunc("main", IrFunction.IrFunctionType.intFunc, null);
+        IrValue func = IrBuilder.createFunc("main", IrFunction.IrFunctionType.intFunc);
+        FuncSymbol symbol = new FuncSymbol("main", Symbol.SymbolType.IntFunc,
+                rootNode.getMainFuncDefNode().getMainToken().getLineNum(), new ArrayList<>());
+        SymbolManager.createTableAndChangeCur(symbol, false);
+        symbol.setIrValue(func);
 
         IrBuilder.createBasicBlock("entry");
         BlockVisitor.visit(rootNode.getMainFuncDefNode().getBlockNode());
