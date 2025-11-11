@@ -53,5 +53,8 @@ public class MidEnd {
         SymbolManager.goToFatherTable();
 
         SymbolManager.end();
+
+        // there's redundant brInstr after retInstr
+        IrBuilder.trimRedundantBranch();
     }
 }

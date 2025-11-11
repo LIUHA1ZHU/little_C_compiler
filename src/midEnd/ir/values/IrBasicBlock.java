@@ -9,13 +9,23 @@ import java.util.ArrayList;
 public class IrBasicBlock extends IrValue {
     private final ArrayList<IrInstruction> instructions;
 
+    // for CFG analysis
+    private final ArrayList<IrBasicBlock> predecessors;
+    private final ArrayList<IrBasicBlock> successors;
+
     public IrBasicBlock(String name) {
         super(name, IrValueType.BasicBlock);
         this.instructions = new ArrayList<>();
+        this.predecessors = new ArrayList<>();
+        this.successors = new ArrayList<>();
     }
 
     public void addInstr(IrInstruction instruction) {
         instructions.add(instruction);
+    }
+
+    public ArrayList<IrInstruction> getInstructions() {
+        return instructions;
     }
 
     public boolean notEndWithTerminator() {
@@ -23,6 +33,22 @@ public class IrBasicBlock extends IrValue {
         IrInstructionType lastInstrType = instructions.get(instructions.size() - 1).getInstructionType();
         return !(lastInstrType.equals(IrInstructionType.ReturnVoidInstr) || lastInstrType.equals(IrInstructionType.ReturnIntInstr)
                 || lastInstrType.equals(IrInstructionType.BranchInstr));
+    }
+
+    public void addPre(IrBasicBlock basicBlock) {
+        predecessors.add(basicBlock);
+    }
+
+    public void addSuc(IrBasicBlock basicBlock) {
+        successors.add(basicBlock);
+    }
+
+    public ArrayList<IrBasicBlock> getPredecessors() {
+        return predecessors;
+    }
+
+    public ArrayList<IrBasicBlock> getSuccessors() {
+        return successors;
     }
 
     @Override

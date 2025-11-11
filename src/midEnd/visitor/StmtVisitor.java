@@ -7,7 +7,6 @@ import midEnd.ir.IrBuilder;
 import midEnd.ir.IrValue;
 import midEnd.ir.values.IrBasicBlock;
 import midEnd.ir.values.IrStringConstant;
-import midEnd.ir.values.IrVariable;
 import midEnd.ir.values.instructions.*;
 import midEnd.ir.values.instructions.IOInstructions.IrPutintInstruction;
 import midEnd.ir.values.instructions.IOInstructions.IrPutstrInstruction;
@@ -65,11 +64,10 @@ public class StmtVisitor {
             SymbolManager.setLastIsReturn(false);
             return;
         }
+        IrBranchInstruction branch = new IrBranchInstruction(null);
         if (singleBranchToken.getTokenType().equals(TokenType.CONTINUETK)) {
-            IrBranchInstruction branch = new IrBranchInstruction(null);
             IrBuilder.getForStepStack().peek().add(branch);
         } else { // must be Break
-            IrBranchInstruction branch = new IrBranchInstruction(null);
             IrBuilder.getForEndStack().peek().add(branch);
         }
         IrBuilder.createBasicBlock("afterSingleBranch" + IrBuilder.getBlockNum());
@@ -266,17 +264,6 @@ public class StmtVisitor {
         for (LValAssignStmtNode lValAssign : forStmtNode.getlValAssignStmtNodes()) {
             visitLValAssign(lValAssign);
         }
-
-//        for (int i = 0; i < lValNodes.size(); i++) {
-//            Token lValToken = lValNodes.get(i).getIdentToken();
-//            Symbol symbol = SymbolManager.getSymbolDefined(lValToken.getContent(), lValToken.getLineNum());
-//            if (symbol != null) {
-//                if (symbol.getSymbolType().equals(Symbol.SymbolType.ConstInt) || symbol.getSymbolType().equals(Symbol.SymbolType.ConstIntArray)) {
-//                    ErrorHandler.addError(new Error(ErrorType.h, lValToken.getLineNum()));
-//                }
-//            }
-//            ExpVisitor.visit(expNodes.get(i));
-//        }
     }
 
     private static int countFormatSpecifiers(String str) {

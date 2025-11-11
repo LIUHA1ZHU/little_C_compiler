@@ -3,7 +3,6 @@ package midEnd.visitor;
 import error.Error;
 import error.ErrorHandler;
 import error.ErrorType;
-import midEnd.ir.IrBuilder;
 import midEnd.ir.IrValue;
 import midEnd.ir.values.IrConstant;
 import midEnd.ir.values.IrFunction;

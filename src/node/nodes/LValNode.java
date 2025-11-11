@@ -67,7 +67,6 @@ public class LValNode extends ExpAlikeNode {
         if (((ValueSymbol) symbol).getConstValues() != null && !((ValueSymbol) symbol).getConstValues().isEmpty() &&
                 (symbol.getSymbolType().equals(Symbol.SymbolType.ConstInt) || symbol.getSymbolType().equals(Symbol.SymbolType.ConstIntArray))) { // const
             if (((ValueSymbol) symbol).getLength() != 1) { // array
-                //TODO
 
             } else {
                 constValue = ((ValueSymbol) symbol).getConstValues().get(0);

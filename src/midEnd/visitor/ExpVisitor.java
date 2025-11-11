@@ -124,17 +124,6 @@ public class ExpVisitor {
     //              cond
     //--------------------------------
     private static void visitLOrExpNode(LOrExpNode lOrExpNode) {
-//        if (lOrExpNode.isConst()) {
-//            int number = lOrExpNode.getConstValue();
-//            IrBranchInstruction branchInstruction = new IrBranchInstruction(null);
-//            IrBuilder.createBasicBlock("cond" + IrBuilder.getBlockNum());
-//            if (number == 0) {
-//                lOrExpNode.addToFalseList(branchInstruction);
-//            } else {
-//                lOrExpNode.addToTrueList(branchInstruction);
-//            }
-//            return;
-//        }
         if (lOrExpNode.getOpToken() == null) {
             visitLAndExpNode(lOrExpNode.getlAndExpNode());
             lOrExpNode.getlAndExpNode().getTrueList().forEach(lOrExpNode::addToTrueList);
@@ -157,17 +146,6 @@ public class ExpVisitor {
      * all condition below this level must be IrBranchInstr here
      */
     private static void visitLAndExpNode(LAndExpNode lAndExpNode) {
-//        if (lAndExpNode.isConst()) {
-//            int number = lAndExpNode.getConstValue();
-//            IrBranchInstruction branchInstruction = new IrBranchInstruction(null);
-//            IrBuilder.createBasicBlock("cond" + IrBuilder.getBlockNum());
-//            if (number == 0) {
-//                lAndExpNode.addToFalseList(branchInstruction);
-//            } else {
-//                lAndExpNode.addToTrueList(branchInstruction);
-//            }
-//            return;
-//        }
         if (lAndExpNode.getOpToken() == null) {
             IrValue singleEqValue = visitEqExpNode(lAndExpNode.getEqExpNode());
             if (!(singleEqValue instanceof IrIcmpInstruction) && !(singleEqValue instanceof IrBranchInstruction)) {
@@ -206,24 +184,8 @@ public class ExpVisitor {
     }
 
     private static IrValue visitEqExpNode(EqExpNode eqExpNode) {
-//        if (eqExpNode.isConst()) {
-//            int number = eqExpNode.getConstValue();
-//            IrBranchInstruction branchInstruction = new IrBranchInstruction(null);
-//            IrBuilder.createBasicBlock("cond" + IrBuilder.getBlockNum());
-//            if (number == 0) {
-//                eqExpNode.addToFalseList(branchInstruction);
-//            } else {
-//                eqExpNode.addToTrueList(branchInstruction);
-//            }
-//            return branchInstruction;
-//        }
         if (eqExpNode.getOpToken() == null) {
-            IrValue cond = visitRelExpNode(eqExpNode.getRelExpNode());
-//            IrBranchInstruction branchInstruction = new IrBranchInstruction(cond);
-//            //IrBuilder.createBasicBlock("cond" + IrBuilder.getBlockNum());
-//            eqExpNode.addToTrueList(branchInstruction);
-//            eqExpNode.addToFalseList(branchInstruction);
-            return cond;
+            return visitRelExpNode(eqExpNode.getRelExpNode());
         }
         IrIcmpInstruction.IcmpCondType condType = switch (eqExpNode.getOpToken().getTokenType()) {
             case EQL -> IrIcmpInstruction.IcmpCondType.eq;

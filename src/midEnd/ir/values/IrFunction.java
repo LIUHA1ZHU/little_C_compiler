@@ -29,6 +29,10 @@ public class IrFunction extends IrGlobalValue {
         this.parameters = parameters;
     }
 
+    public ArrayList<IrBasicBlock> getBasicBlocks() {
+        return basicBlocks;
+    }
+
     public ArrayList<IrVariable> getParameters() {
         return parameters;
     }
@@ -49,20 +53,13 @@ public class IrFunction extends IrGlobalValue {
                 sb.append("define dso_local i32 @").append(name);
             }
 
-//                sb.append("(");
-//                for (int i = 0; i < parameters.size(); i++) {
-//                    IrVariable var = parameters.get(i);
-//                    sb.append(var.isArray() ? "int*" : "int");
-//                    if (i != parameters.size() -1) sb.append(", ");
-//                }
-//                sb.append(")");
-                sb.append("(");
-                for (int i = 0; i < parameters.size(); i++) {
-                    IrVariable var = parameters.get(i);
-                    sb.append(var.isArray() ? "i32* " : "i32 ").append(var.getName());
-                    if (i != parameters.size() -1) sb.append(", ");
-                }
-                sb.append(")");
+            sb.append("(");
+            for (int i = 0; i < parameters.size(); i++) {
+                IrVariable var = parameters.get(i);
+                sb.append(var.isArray() ? "i32* " : "i32 ").append(var.getName());
+                if (i != parameters.size() -1) sb.append(", ");
+            }
+            sb.append(")");
 
             sb.append(" {\n");
 

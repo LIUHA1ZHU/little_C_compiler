@@ -15,6 +15,9 @@ public abstract class IrUser extends IrValue {
         this.useValue1 = value1;
         this.useValue2 = value2;
         this.useValueP = valueP;
+        if (value1 != null) value1.addUser(this);
+        if (value2 != null) value2.addUser(this);
+        if (valueP != null) valueP.addUser(this);
     }
 
     public IrValue getFirstUseValue() {

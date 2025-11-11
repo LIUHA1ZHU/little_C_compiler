@@ -1,9 +1,7 @@
 package midEnd.visitor;
 
 import midEnd.ir.IrValue;
-import midEnd.ir.IrValueType;
 import midEnd.ir.values.IrConstant;
-import midEnd.ir.values.IrGlobalVariable;
 import midEnd.ir.values.IrVariable;
 import midEnd.ir.values.instructions.IrGEPInstruction;
 import midEnd.ir.values.instructions.IrLoadInstruction;
@@ -38,14 +36,10 @@ public class LValVisitor {
         }
 
         // Array
-        if (lValNode.getExpNode() == null) { // in funcRParam, decay
+        if (lValNode.getExpNode() == null) { // in funcRParam, array decays to a pointer
             return new IrGEPInstruction(symbol.getIrValue(), new IrConstant(0));
         }
         return visitArray(lValNode, symbol);
-
-//        IrValue irVariable = new IrVariable(name + symbol.getShadowingNum(), isGlobal);
-//        return new IrLoadInstruction(irVariable);
-
     }
 
     private static IrValue visitArray(LValNode lValNode, Symbol symbol) {

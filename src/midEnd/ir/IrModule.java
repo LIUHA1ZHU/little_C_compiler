@@ -15,6 +15,10 @@ public class IrModule {
         globalValues.add(globalValue);
     }
 
+    public ArrayList<IrGlobalValue> getGlobalValues() {
+        return globalValues;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (IrGlobalValue globalValue : globalValues) {
