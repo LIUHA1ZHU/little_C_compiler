@@ -4,7 +4,7 @@ import java.io.*;
 
 public class FileIO {
     public enum IOType {
-        LEXER, PARSER, ERROR, SEMANTICS, IR,
+        LEXER, PARSER, ERROR, SEMANTICS, IR, MIPS
     }
 
     public static String read() {
@@ -40,6 +40,7 @@ public class FileIO {
             case ERROR -> filePath = Config.ErrorPath;
             case SEMANTICS -> filePath = Config.SymbolOutputPath;
             case IR -> filePath = Config.IROutputPath;
+            case MIPS -> filePath = Config.MipsOutputPath;
         }
         File file = new File(filePath);
         if (!file.exists()) {

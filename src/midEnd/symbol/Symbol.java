@@ -47,6 +47,9 @@ public class Symbol {
         this.irValue = irValue;
     }
 
+    /**
+     * global or alloca or function
+     */
     public IrValue getIrValue() {
         return irValue;
     }

@@ -35,6 +35,16 @@ public class MidEnd {
         for (FuncDefNode funcDefNode : rootNode.getFuncDefNodes()) {
             FuncDefVisitor.visit(funcDefNode);
         }
+        visitMainFuncDef();
+
+        SymbolManager.end();
+
+        // there's redundant brInstr after retInstr
+        IrBuilder.trimRedundantBranch();
+
+    }
+
+    private void visitMainFuncDef() {
         // MainFuncDef
         IrValue func = IrBuilder.createFunc("main", IrFunction.IrFunctionType.intFunc);
         FuncSymbol symbol = new FuncSymbol("main", Symbol.SymbolType.IntFunc,
@@ -51,10 +61,5 @@ public class MidEnd {
             ErrorHandler.addError(new Error(ErrorType.g, rootNode.getMainFuncDefNode().getBlockNode().getrBrace().getLineNum()));
         }
         SymbolManager.goToFatherTable();
-
-        SymbolManager.end();
-
-        // there's redundant brInstr after retInstr
-        IrBuilder.trimRedundantBranch();
     }
 }

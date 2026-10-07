@@ -33,14 +33,65 @@ public abstract class IrUser extends IrValue {
     }
 
     public void setUseValue1(IrValue useValue1) {
+        if (this.useValue1 != null) {
+            this.useValue1.removeUser(this);
+        }
         this.useValue1 = useValue1;
+        if (this.useValue1 != null) {
+            this.useValue1.addUser(this);
+        }
     }
 
     public void setUseValue2(IrValue useValue2) {
+        if (this.useValue2 != null) {
+            this.useValue2.removeUser(this);
+        }
         this.useValue2 = useValue2;
+        if (this.useValue2 != null) {
+            this.useValue2.addUser(this);
+        }
     }
 
     public void setUseValueP(IrValue useValueP) {
+        if (this.useValueP != null) {
+            this.useValueP.removeUser(this);
+        }
         this.useValueP = useValueP;
+        if (this.useValueP != null) {
+            this.useValueP.addUser(this);
+        }
+    }
+
+    public void replaceUse(IrValue oldVal, IrValue newVal) {
+        if (useValue1 == oldVal) {
+            useValue1 = newVal;
+            oldVal.removeUser(this);
+            newVal.addUser(this);
+        }
+        if (useValue2 == oldVal) {
+            useValue2 = newVal;
+            oldVal.removeUser(this);
+            newVal.addUser(this);
+        }
+        if (useValueP == oldVal) {
+            useValueP = newVal;
+            oldVal.removeUser(this);
+            newVal.addUser(this);
+        }
+    }
+
+    public void removeAllValueUse() {
+        if (useValue1 != null) {
+            useValue1.removeUser(this);
+            useValue1 = null;
+        }
+        if (useValue2 != null) {
+            useValue2.removeUser(this);
+            useValue2 = null;
+        }
+        if (useValueP != null) {
+            useValueP.removeUser(this);
+            useValueP = null;
+        }
     }
 }

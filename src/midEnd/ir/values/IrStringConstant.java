@@ -1,5 +1,6 @@
 package midEnd.ir.values;
 
+import backend.mips.assembly.data.MipsAsciiz;
 import midEnd.ir.IrBuilder;
 import midEnd.ir.IrValueType;
 
@@ -7,7 +8,7 @@ public class IrStringConstant extends IrGlobalValue{
     private String string;
     public IrStringConstant(String string) {
         super(IrBuilder.GlobalPrefix + ".str." + IrBuilder.getStringConstantNum(), IrValueType.StringConstant);
-        this.string = string + '\0';
+        this.string = string;
         IrBuilder.addStringConstant(this);
     }
 
@@ -19,12 +20,20 @@ public class IrStringConstant extends IrGlobalValue{
             count++;
             index += 2;
         }
-        return len - count;
+        return len - count + 1; // + 1 for \0
     }
 
     @Override
     public String toString() {
         return name + " = private unnamed_addr constant [" + getLength() + " x i8] c\""
-                + string.replace("\0", "\\00").replace("\\n", "\\0A") + "\", align 1\n";
+                + string.replace("\\n", "\\0A") + "\\00" + "\", align 1\n";
+    }
+
+    @Override
+    public void toMips() {
+        String name = getMipsLabel();
+
+        String content = string.replace("\\0A", "\n");
+        new MipsAsciiz(name, content);
     }
 }

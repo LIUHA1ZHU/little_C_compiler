@@ -196,11 +196,10 @@ public class ExpVisitor {
         IrValue val2 = visitRelExpNode(eqExpNode.getRelExpNode());
         IrValue cond = new IrIcmpInstruction(condType, val1, val2);
         IrBranchInstruction branchInstruction = new IrBranchInstruction(cond);
-        //IrBuilder.createBasicBlock("cond" + IrBuilder.getBlockNum());
+
         eqExpNode.addToTrueList(branchInstruction);
         eqExpNode.addToFalseList(branchInstruction);
         return branchInstruction;
-
     }
 
     private static IrValue visitRelExpNode(RelExpNode relExpNode) {
@@ -220,6 +219,5 @@ public class ExpVisitor {
         };
         return new IrIcmpInstruction(condType, visitRelExpNode(relExpNode.getRelExpNode()),
                 visitAddExp(relExpNode.getAddExpNode()));
-
     }
 }

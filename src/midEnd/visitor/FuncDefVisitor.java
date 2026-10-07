@@ -8,6 +8,8 @@ import midEnd.ir.IrValue;
 import midEnd.ir.values.IrConstant;
 import midEnd.ir.values.IrFunction;
 import midEnd.ir.values.IrVariable;
+import midEnd.ir.values.instructions.IrAllocaInstruction;
+import midEnd.ir.values.instructions.IrStoreInstruction;
 import midEnd.symbol.FuncSymbol;
 import midEnd.symbol.Symbol;
 import midEnd.symbol.SymbolManager;
@@ -27,7 +29,6 @@ public class FuncDefVisitor {
         boolean isInt = funcDefNode.getFuncTypeNode().getFuncType().getTokenType().equals(TokenType.INTTK);
         // formal params
         ArrayList<Symbol> paramSymbolList = createParamSymbolList(funcDefNode);
-
 
         // create funcSymbol
         FuncSymbol funcSymbol;
@@ -49,7 +50,8 @@ public class FuncDefVisitor {
         paramSymbolList.forEach(SymbolManager::addSymbol);
 
         IrBuilder.createBasicBlock("entry");
-        BlockVisitor.visit(funcDefNode.getBlockNode()); //
+        allocateForParams(paramIRList, paramSymbolList);
+        BlockVisitor.visit(funcDefNode.getBlockNode()); // visit block here
         IrBuilder.finishBasicBlockAndAddToFunc();
 
         if (!SymbolManager.getLastIsReturn() && funcSymbol.getSymbolType().equals(Symbol.SymbolType.IntFunc)) {
@@ -93,12 +95,27 @@ public class FuncDefVisitor {
             if (symbol.getSymbolType().equals(Symbol.SymbolType.IntArray)) {
                 irVariable = new IrVariable(symbol.getName(), false, ((ValueSymbol) symbol).getLength(), true);
             } else {
-                irVariable = new IrVariable(symbol.getName(), false, true);
+                irVariable = new IrVariable(symbol.getName(), false);
             }
             irVariables.add(irVariable);
-            symbol.setIrValue(irVariable);
         }
         return irVariables;
+    }
+
+    private static void allocateForParams(ArrayList<IrVariable> valList, ArrayList<Symbol> symbolList) {
+        for (int i = 0; i < valList.size(); i++) {
+            IrVariable irVariable = valList.get(i);
+            Symbol symbol = symbolList.get(i);
+            IrAllocaInstruction varAllocate;
+            if (irVariable.isArray()) { // no need
+                symbol.setIrValue(irVariable);
+            } else {
+                varAllocate = new IrAllocaInstruction(symbol.getName() + ".addr");
+                new IrStoreInstruction("store", irVariable, varAllocate);
+                symbol.setIrValue(varAllocate);
+            }
+
+        }
     }
 
 }

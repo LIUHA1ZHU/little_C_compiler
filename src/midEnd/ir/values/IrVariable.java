@@ -5,22 +5,18 @@ import midEnd.ir.IrValue;
 import midEnd.ir.IrValueType;
 
 /**
- * function formal parameter.
- * Actually a LLVM IR pointer type
+ * Only used in function formal parameter.
  */
 public class IrVariable extends IrValue {
     private int length;
     private boolean isArray;
     private boolean variableLength;
 
-    private boolean isFuncFormal = true;
-
-    public IrVariable(String name, boolean isGlobal, boolean isFuncFormal) {
+    public IrVariable(String name, boolean isGlobal) {
         super((isGlobal ? IrBuilder.GlobalPrefix : IrBuilder.LocalPrefix) + name, IrValueType.Variable);
         this.length = 1;
         this.isArray = false;
         this.variableLength = false;
-        this.isFuncFormal = isFuncFormal;
     }
 
     public IrVariable(String name, boolean isGlobal, int length, boolean variableLength) {
@@ -28,7 +24,6 @@ public class IrVariable extends IrValue {
         this.length = length;
         this.isArray = true;
         this.variableLength = variableLength;
-        this.isFuncFormal = variableLength;
     }
 
     public boolean isArray() {
@@ -43,12 +38,13 @@ public class IrVariable extends IrValue {
         return variableLength;
     }
 
-    public boolean isFuncFormal() {
-        return isFuncFormal;
-    }
-
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public void toMips() {
+        throw new RuntimeException("parameters shouldn't be translated");
     }
 }

@@ -105,13 +105,21 @@ public class IrBuilder {
         if (curBasicBlock.notEndWithTerminator() && curFunction.getIrFunctionType().equals(IrFunction.IrFunctionType.voidFunc)) {
             new IrReturnInstruction("void", IrInstructionType.ReturnVoidInstr);
         }
-        //if (curBasicBlock.notEndWithTerminator() && !ErrorHandler.hasError()) throw new RuntimeException("WARNING: IrBasicBlock doesn't end with terminator");
+
         curFunction.addBasicBlock(curBasicBlock);
         curBasicBlock = null;
     }
 
+    public static void setCurBasicBlock(IrBasicBlock basicBlock) {
+        curBasicBlock = basicBlock;
+    }
+
     public static IrBasicBlock getCurBasicBlock() {
         return curBasicBlock;
+    }
+
+    public static IrFunction getCurFunction() {
+        return curFunction;
     }
 
     //--------------------------------
@@ -144,6 +152,10 @@ public class IrBuilder {
                 iterator.remove();
             }
         }
+    }
+
+    public static IrModule getModule() {
+        return module;
     }
 
     public static void outputIR() {

@@ -97,7 +97,6 @@ public class StmtVisitor {
                 IrGEPInstruction gep = new IrGEPInstruction(symbol.getIrValue(), index);
                 new IrStoreInstruction("store", val, gep);
             } else {
-                String name = symbol.getName();
                 new IrStoreInstruction("store", val, symbol.getIrValue());
             }
         }
@@ -220,7 +219,6 @@ public class StmtVisitor {
 
     /**
      * return instruction doesn't need to be used. So there's no need to return an IrValue
-     * @param returnStmtNode to visit
      */
     public static void visitReturn(ReturnStmtNode returnStmtNode) {
         if (returnStmtNode.getExpNode() != null) { // return <exp>;
@@ -229,7 +227,6 @@ public class StmtVisitor {
             }
             IrValue expValue = ExpVisitor.visit(returnStmtNode.getExpNode());
             new IrReturnInstruction("ret", IrInstructionType.ReturnIntInstr, expValue);
-
         } else {
             new IrReturnInstruction("ret", IrInstructionType.ReturnVoidInstr);
         }

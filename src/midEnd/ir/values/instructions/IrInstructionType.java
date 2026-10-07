@@ -1,12 +1,12 @@
 package midEnd.ir.values.instructions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public enum IrInstructionType {
     ReturnIntInstr,
     ReturnVoidInstr,
     BranchInstr,
+    PhiInstr,
+    ParallelCopy,
+    MoveInstr,
 
     ArithmeticInstr,
     AllocateInstr,
@@ -24,7 +24,7 @@ public enum IrInstructionType {
 
     GlobalVariable;
 
-    public String getValueType() {
+    public String getCallValueType() {
         if (this == GEPInstr || this == AllocateInstr) return "i32 *";
         else return "i32";
     }

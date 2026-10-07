@@ -23,6 +23,14 @@ public abstract class IrValue {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMipsName() {
+        return name.replace("%", "").replace("@", "");
+    }
+
     public ArrayList<IrUser> getUserList() {
         return userList;
     }
@@ -31,5 +39,18 @@ public abstract class IrValue {
         userList.add(user);
     }
 
+    public void removeUser(IrUser user) {
+        userList.remove(user);
+    }
+
+    public void modifyAllUsersToNewValue(IrValue newValue) {
+        ArrayList<IrUser> users = new ArrayList<>(this.userList);
+        for (IrUser user : users) {
+            user.replaceUse(this, newValue);
+        }
+    }
+
     public abstract String toString();
+
+    public abstract void toMips();
 }

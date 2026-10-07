@@ -7,4 +7,9 @@ public abstract class IrGlobalValue extends IrValue {
     public IrGlobalValue(String name, IrValueType valueType) {
         super(name, valueType);
     }
+
+
+    public String getMipsLabel() {
+        return name.replace("@", "");
+    }
 }

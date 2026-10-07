@@ -115,10 +115,6 @@ public class SymbolManager {
         return false;
     }
 
-    public static boolean checkSymbolIsGlobal(Symbol symbol) {
-        return rootTable.containsSymbol(symbol);
-    }
-
     public static void enterForLoop() {
         forLoopDepth++;
     }

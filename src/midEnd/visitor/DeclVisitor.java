@@ -14,7 +14,6 @@ import node.nodes.*;
 import token.Token;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // TODO so ugly now
@@ -214,10 +213,6 @@ public class DeclVisitor {
         SymbolManager.addSymbol(valueSymbol);
         IrGlobalVariable val = new IrGlobalVariable(name + "." + SymbolManager.getCurScope(), length, initVals, true);
 
-        if (varDefNode.getInitValNode() != null) {
-            initStatic(val, initVals);
-        }
-
         valueSymbol.setIrValue(val);
     }
 
@@ -229,10 +224,6 @@ public class DeclVisitor {
         ValueSymbol valueSymbol = new ValueSymbol(name, symbolType, identToken.getLineNum(), 1);
         SymbolManager.addSymbol(valueSymbol);
         IrGlobalVariable val = new IrGlobalVariable(name + "." + SymbolManager.getCurScope(), 1, initVals, false);
-
-        if (varDefNode.getInitValNode() != null) {
-            initStatic(val, initVals);
-        }
 
         valueSymbol.setIrValue(val);
     }
@@ -261,36 +252,11 @@ public class DeclVisitor {
         ValueSymbol valueSymbol = new ValueSymbol(name, Symbol.SymbolType.Int, identToken.getLineNum(), 1);
         SymbolManager.addSymbol(valueSymbol);
 
-        IrValue variableAllocate = new IrAllocaInstruction(name + valueSymbol.getShadowingNum());
+        IrValue variableAllocate = new IrAllocaInstruction(name + "." + valueSymbol.getShadowingNum());
         if (!initVals.isEmpty()) { // variable with initVal
             new IrStoreInstruction("store", initVals.get(0), variableAllocate);
         }
         valueSymbol.setIrValue(variableAllocate);
     }
 
-    private static void initStatic(IrGlobalVariable val, ArrayList<IrValue> initVals) {
-        IrGlobalVariable guard = new IrGlobalVariable("guard." + val.getName().replace("@", ""), 1,
-                new ArrayList<>(List.of(new IrConstant(0))), false);
-
-        IrLoadInstruction loadGuard = new IrLoadInstruction(guard);
-        IrIcmpInstruction icmp = new IrIcmpInstruction(IrIcmpInstruction.IcmpCondType.eq, loadGuard, new IrConstant(0));
-        IrBranchInstruction branchToInit = new IrBranchInstruction(icmp);
-
-        IrBasicBlock initBlock = IrBuilder.createBasicBlock("init" + IrBuilder.getBlockNum());
-        branchToInit.setTrueDestination(initBlock);
-        if (val.isArray()) {
-            for (int j = 0; j < initVals.size(); j++) {
-                IrGEPInstruction gep = new IrGEPInstruction(val, new IrConstant(j));
-                new IrStoreInstruction("store", initVals.get(j), gep);
-            }
-        } else {
-            new IrStoreInstruction("store", initVals.get(0), val);
-        }
-        new IrStoreInstruction("store", new IrConstant(1), guard);
-
-        IrBranchInstruction branchToEnd = new IrBranchInstruction(null);
-        IrBasicBlock endBlock = IrBuilder.createBasicBlock("initEnd" + IrBuilder.getBlockNum());
-        branchToInit.setFalseDestination(endBlock);
-        branchToEnd.setTrueDestination(endBlock);
-    }
 }

@@ -13,8 +13,7 @@ import node.nodes.LValNode;
 public class LValVisitor {
 
     /**
-     * get symbol & generate an IrLoadInstruction. (Constants are solved in evaluate)
-     * @return IrLoadInstruction
+     * get symbol & generate an IrLoadInstruction. (Constants are solved in evaluate and this will not be called)
      */
     public static IrValue visit(LValNode lValNode) {
         String name = lValNode.getIdentToken().getContent();
@@ -31,7 +30,8 @@ public class LValVisitor {
         }
 
         if (symbol.getSymbolType().equals(Symbol.SymbolType.Int)) {
-            if (symbol.getIrValue() instanceof IrVariable && ((IrVariable) symbol.getIrValue()).isFuncFormal()) return symbol.getIrValue();
+            if (symbol.getIrValue() instanceof IrVariable) // function formal param
+                return symbol.getIrValue();
             return new IrLoadInstruction(symbol.getIrValue());
         }
 

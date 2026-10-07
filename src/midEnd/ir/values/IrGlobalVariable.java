@@ -1,5 +1,6 @@
 package midEnd.ir.values;
 
+import backend.mips.assembly.data.MipsWord;
 import midEnd.ir.IrBuilder;
 import midEnd.ir.IrValue;
 import midEnd.ir.IrValueType;
@@ -82,5 +83,39 @@ public class IrGlobalVariable extends IrGlobalValue{
             }
             return sb.toString();
         }
+    }
+
+    @Override
+    public void toMips() {
+        String label = getMipsLabel();
+        ArrayList<Integer> values = new ArrayList<>();
+
+        if (!isArray) {
+            int initVal = 0;
+            if (!initVals.isEmpty() && initVals.get(0) instanceof IrConstant) {
+                initVal = ((IrConstant) initVals.get(0)).getConstValue();
+            }
+            values.add(initVal);
+        } else {
+            for (int i = 0; i < length; i++) {
+                if (allZero() || hasNonConstant()) {
+                    values.add(0);
+                } else {
+                    if (i < initVals.size()) {
+                        IrValue val = initVals.get(i);
+                        if (val instanceof IrConstant) {
+                            values.add(((IrConstant) val).getConstValue());
+                        } else {
+                            values.add(0);
+                            throw new RuntimeException("global variable with non-constant initVal");
+                        }
+                    } else {
+                        values.add(0);
+                    }
+                }
+            }
+        }
+
+        new MipsWord(label, values);
     }
 }

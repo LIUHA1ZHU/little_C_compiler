@@ -4,7 +4,7 @@ import midEnd.ir.IrValue;
 import midEnd.ir.IrValueType;
 
 public class IrConstant extends IrValue {
-    private int constValue;
+    private final int constValue;
 
     public IrConstant(int constValue) {
         super(Integer.toString(constValue), IrValueType.ConstantValue);
@@ -18,5 +18,10 @@ public class IrConstant extends IrValue {
     @Override
     public String toString() {
         return "i32 " + constValue;
+    }
+
+    @Override
+    public void toMips() {
+        throw new RuntimeException("constant shouldn't be translated");
     }
 }

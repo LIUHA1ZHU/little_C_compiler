@@ -13,7 +13,6 @@ public class SymbolTable {
     private final FuncSymbol curFuncSymbol;
     private SymbolTable fatherTable;
     private ArrayList<SymbolTable> sonTables;
-    private int sonIndex;
     private ArrayList<Symbol> symbolList;
     private HashMap<String, Symbol> symbolMap;
 
@@ -24,7 +23,6 @@ public class SymbolTable {
         this.curFuncSymbol = curFuncSymbol;
         this.fatherTable = fatherTable;
         this.sonTables = new ArrayList<>();
-        this.sonIndex = 0;
         this.symbolList = new ArrayList<>();
         this.symbolMap = new HashMap<>();
     }
@@ -39,10 +37,6 @@ public class SymbolTable {
 
     public FuncSymbol getCurFuncSymbol() {
         return curFuncSymbol;
-    }
-
-    public ArrayList<SymbolTable> getSonTables() {
-        return sonTables;
     }
 
     public boolean lastIsReturn() {

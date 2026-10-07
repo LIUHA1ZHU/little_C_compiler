@@ -5,6 +5,8 @@ public class Config {
 
     private static final boolean atLocal = false;
 
+    public static final boolean optimize = true;
+
     public static final boolean LexerOutput = true;
 
     public static final boolean ErrorOutput = true;
@@ -14,6 +16,8 @@ public class Config {
     public static final boolean SymbolOutput = true;
 
     public static final boolean IROutput = true;
+
+    public static final boolean MipsOutput = true;
 
     public static final String LocalInputFilePath = workingDir + "/test_cases/testfile_ir.txt";
 
@@ -39,6 +43,10 @@ public class Config {
 
     public static final String OnlineIROutputPath = "llvm_ir.txt";
 
+    public static final String LocalMipsOutputPath = workingDir + "/output/m.asm";
+
+    public static final String OnlineMipsOutputPath = "mips.txt";
+
 
     // all set
     public static final String LexerOutputPath = atLocal ? LocalLexerOutputPath : OnlineLexerOutputPath;
@@ -52,4 +60,6 @@ public class Config {
     public static final String SymbolOutputPath = atLocal ? LocalSymbolOutputPath : OnlineSymbolOutputPath;
 
     public static final String IROutputPath = atLocal ? LocalIROutputPath : OnlineIROutputPath;
+
+    public static final String MipsOutputPath = atLocal ? LocalMipsOutputPath : OnlineMipsOutputPath;
 }
